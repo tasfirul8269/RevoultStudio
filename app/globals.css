@@ -1,0 +1,407 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Performance optimizations for animations */
+* {
+  box-sizing: border-box;
+}
+
+/* Enable hardware acceleration for animated elements */
+.section-container,
+.planet-3d,
+.card-hover,
+.card-3d,
+.neon-border,
+.bg-gradient-to-br,
+.bg-gradient-to-b,
+.bg-gradient-to-t,
+.particle,
+.absolute {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize scroll performance */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Section container styling */
+.section-container {
+  min-height: 100vh;
+  position: relative;
+  contain: layout style paint;
+}
+
+/* Optimize text rendering during animations */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  text-rendering: optimizeSpeed;
+}
+
+/* Reduce animation complexity for better performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root {
+  --primary: #1b1ac7;
+  --secondary: #0c0c7a;
+  --accent: #7784e4;
+  --background: #040422;
+  --text-primary: #ffffff;
+  --text-secondary: #b8c5ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling sections */
+.section-container {
+  min-height: 100vh;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+/* Allow footer to be scrolled to */
+footer {
+  scroll-snap-align: end;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-effect {
+  box-shadow: 0 0 20px rgba(27, 26, 199, 0.3);
+}
+
+/* Enhanced 3D Planet matching reference images */
+.planet-3d {
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(119, 132, 228, 1) 0%, 
+    rgba(27, 26, 199, 0.9) 25%, 
+    rgba(12, 12, 122, 0.8) 50%,
+    rgba(4, 4, 34, 0.9) 75%,
+    rgba(4, 4, 34, 1) 100%);
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 60px rgba(119, 132, 228, 0.6),
+    0 0 120px rgba(119, 132, 228, 0.4),
+    0 0 180px rgba(119, 132, 228, 0.2),
+    inset 0 0 60px rgba(119, 132, 228, 0.1);
+}
+
+.planet-3d::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, 
+    transparent, 
+    rgba(119, 132, 228, 0.3), 
+    transparent, 
+    rgba(119, 132, 228, 0.1), 
+    transparent);
+  animation: rotate 25s linear infinite;
+  border-radius: 50%;
+}
+
+.planet-3d::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 255, 255, 0.3) 0%, 
+    rgba(255, 255, 255, 0.1) 40%, 
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+/* Planet surface details */
+.planet-surface {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(119, 132, 228, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(27, 26, 199, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(119, 132, 228, 0.2) 0%, transparent 50%);
+}
+
+/* Orbital ring */
+.orbital-ring {
+  position: absolute;
+  border: 1px solid rgba(119, 132, 228, 0.3);
+  border-radius: 50%;
+  animation: rotate 30s linear infinite reverse;
+}
+
+.orbital-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(119, 132, 228, 0.8);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(119, 132, 228, 0.6);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.5; transform: translateX(-50%) scale(1.2); }
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(20px) translateX(10px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.2); }
+}
+
+.hero-bg {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(27, 26, 199, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(119, 132, 228, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(12, 12, 122, 0.1) 0%, transparent 50%);
+}
+
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-hover:hover {
+  transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 25px 50px rgba(119, 132, 228, 0.3);
+}
+
+.neon-border {
+  border: 1px solid rgba(119, 132, 228, 0.4);
+  box-shadow: 
+    0 0 20px rgba(119, 132, 228, 0.1),
+    inset 0 0 20px rgba(119, 132, 228, 0.05);
+}
+
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transform-origin: left;
+  z-index: 1000;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(119, 132, 228, 0.5);
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(8deg) rotateX(8deg) translateZ(30px);
+}
+
+/* Parallax sections */
+.parallax-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Enhanced button styles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border: none;
+  padding: 16px 32px;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(119, 132, 228, 0.4);
+}
+
+/* Animated background particles */
+.bg-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(119, 132, 228, 0.6);
+  border-radius: 50%;
+  animation: particleFloat 8s infinite linear;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Navigation enhancements */
+.nav-blur {
+  backdrop-filter: blur(20px);
+  background: rgba(4, 4, 34, 0.8);
+  border-bottom: 1px solid rgba(119, 132, 228, 0.2);
+}
+
+/* Transparent navigation state */
+nav.bg-transparent {
+  background: transparent !important;
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+/* Section transitions */
+.section-enter {
+  opacity: 0;
+  transform: translateY(100px);
+}
+
+.section-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced glow effects */
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(119, 132, 228, 0.4), 
+                0 0 40px rgba(119, 132, 228, 0.3),
+                0 0 60px rgba(119, 132, 228, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(119, 132, 228, 0.6), 
+                0 0 60px rgba(119, 132, 228, 0.4),
+                0 0 90px rgba(119, 132, 228, 0.3);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .section-container {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .planet-3d {
+    width: 200px !important;
+    height: 200px !important;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+.animate-shimmer {
+  background-size: 400px 100%;
+  animation: shimmer 1.5s linear infinite;
+}
