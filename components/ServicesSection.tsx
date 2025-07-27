@@ -59,21 +59,21 @@ const ServicesSection = () => {
 
   const services = [
     {
-      icon: <Video className="w-8 h-8" />,
+      icon: <Video className="w-8 h-8" aria-hidden="true" aria-label="Video Editing Icon" />,
       title: "Video Editing",
       description: "Transform your raw footage into captivating visual stories with our professional video editing services. Perfect for businesses, content creators, and brands looking to make an impact.",
       features: ["4K/8K Video Editing", "Color Grading & Correction", "Motion Graphics & VFX", "Social Media Content"],
       path: "/services/video-editing"
     },
     {
-      icon: <Image className="w-8 h-8" />,
+      icon: <Image className="w-8 h-8" aria-hidden="true" aria-label="Graphics Design Icon" />,
       title: "Graphics Design",
       description: "Elevate your brand with stunning visual identities and marketing materials that tell your unique story and connect with your audience.",
       features: ["Logo & Brand Identity", "Print & Digital Marketing", "Social Media Graphics", "UI/UX Design"],
       path: "/services/graphics-design"
     },
     {
-      icon: <Box className="w-8 h-8 transform rotate-12 -rotate-y-12" />,
+      icon: <Box className="w-8 h-8 transform rotate-12 -rotate-y-12" aria-hidden="true" aria-label="3D Animation Icon" />,
       title: "3D Animation",
       description: "Bring your ideas to life with our cutting-edge 3D animation services, from product visualizations to immersive brand experiences.",
       features: ["3D Product Visualization", "Character Animation", "Architectural Walkthroughs", "Motion Graphics"],

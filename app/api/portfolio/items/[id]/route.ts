@@ -7,9 +7,12 @@ import { uploadFile, deleteFile } from '@/lib/fileUpload';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await the params Promise (Next.js 15 requirement)
+    const { id } = await params;
+    
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -40,7 +43,7 @@ export async function PUT(
     await dbConnect();
     
     // Find the existing portfolio item
-    const existingItem = await Portfolio.findById(params.id);
+    const existingItem = await Portfolio.findById(id);
     if (!existingItem) {
       return NextResponse.json(
         { success: false, message: 'Portfolio item not found' },
@@ -85,7 +88,7 @@ export async function PUT(
 
     // Update the portfolio item
     const updatedItem = await Portfolio.findByIdAndUpdate(
-      params.id,
+      id,
       {
         title,
         description,
@@ -111,9 +114,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await the params Promise (Next.js 15 requirement)
+    const { id } = await params;
+    
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -126,7 +132,7 @@ export async function DELETE(
     await dbConnect();
     
     // Find the portfolio item
-    const portfolioItem = await Portfolio.findById(params.id);
+    const portfolioItem = await Portfolio.findById(id);
     if (!portfolioItem) {
       return NextResponse.json(
         { success: false, message: 'Portfolio item not found' },
@@ -143,7 +149,7 @@ export async function DELETE(
     }
 
     // Delete from database
-    await Portfolio.findByIdAndDelete(params.id);
+    await Portfolio.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,

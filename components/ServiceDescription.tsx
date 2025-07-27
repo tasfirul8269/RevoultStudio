@@ -1,8 +1,7 @@
 'use client';
 
-'use client';
-
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ScrollAnimation from './ScrollAnimation';
 
@@ -58,10 +57,13 @@ const ServiceDescription = ({
             className="w-full lg:w-1/2"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/20 h-[400px] md:h-[500px] transform hover:scale-[1.02] transition-all duration-500">
-              <img 
+              <Image 
                 src={image} 
                 alt={title}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
               />
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0613]/70 to-transparent"></div>

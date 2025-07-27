@@ -29,10 +29,10 @@ const AboutSection = () => {
     setParticles(newParticles);
   }, []);
   const stats = [
-    { number: "150+", label: "Projects Completed", icon: <Award className="w-6 h-6" /> },
-    { number: "50+", label: "Happy Clients", icon: <Users className="w-6 h-6" /> },
-    { number: "5+", label: "Years Experience", icon: <Zap className="w-6 h-6" /> },
-    { number: "99%", label: "Success Rate", icon: <Target className="w-6 h-6" /> }
+    { number: "1,540", label: "Projects Completed", icon: <Award className="w-6 h-6" /> },
+    { number: "$11,000", label: "Revenue Generated", icon: <Users className="w-6 h-6" /> },
+    { number: "7+", label: "Years Experience", icon: <Zap className="w-6 h-6" /> },
+    { number: "98%", label: "Success Rate", icon: <Target className="w-6 h-6" /> }
   ];
 
   return (
@@ -100,10 +100,10 @@ const AboutSection = () => {
           <ScrollAnimation duration={0.7} delay={0.2} direction="up" once={false}>
             <div className="space-y-6">
               <p className="text-lg lg:text-xl text-[#b8c5ff] leading-relaxed">
-                At Revoult Studio, we're a passionate team of creative professionals dedicated to transforming your ideas into visually stunning realities. Specializing in video editing, website development, 3D animation, and graphic design, we bring a unique blend of technical expertise and artistic vision to every project.
+                At Revoult Studio, we&apos;re a passionate team of creative professionals dedicated to transforming your ideas into visually stunning realities. Specializing in video editing, website development, 3D animation, and graphic design, we bring a unique blend of technical expertise and artistic vision to every project.
               </p>
               <p className="text-lg text-[#b8c5ff] leading-relaxed">
-                From captivating promotional videos to dynamic websites and eye-catching animations, we work closely with our clients to understand their brand and deliver solutions that not only meet but exceed expectations. Our commitment to quality and innovation ensures your brand stands out in today's competitive digital landscape.
+                From captivating promotional videos to dynamic websites and eye-catching animations, we work closely with our clients to understand their brand and deliver solutions that not only meet but exceed expectations. Our commitment to quality and innovation ensures your brand stands out in today&apos;s competitive digital landscape.
               </p>
               <div className="pt-6">
                 <button className="btn-primary hover:scale-105">

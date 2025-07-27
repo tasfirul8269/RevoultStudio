@@ -109,10 +109,10 @@ export default function WebsiteDevelopmentPage() {
       
       <ServiceDescription
         title="Comprehensive Web Development Solutions"
-        description="From concept to deployment, we've got you covered"
+        description="From concept to deployment, we&apos;ve got you covered"
         content={
           <div className="space-y-6">
-            <p>Our expert development team delivers professional web solutions tailored to your needs. Whether you're looking for a stunning business website, a powerful e-commerce platform, or a custom web application, we combine creativity with technical expertise to bring your vision to life.</p>
+            <p>Our expert development team delivers professional web solutions tailored to your needs. Whether you&apos;re looking for a stunning business website, a powerful e-commerce platform, or a custom web application, we combine creativity with technical expertise to bring your vision to life.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div className="space-y-2">

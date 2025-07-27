@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -31,12 +30,6 @@ const services = {
   },
 };
 
-type ServiceType = {
-  params: {
-    service: string;
-  };
-};
-
 interface PortfolioItem {
   _id: string;
   title: string;
@@ -49,23 +42,37 @@ interface PortfolioItem {
   updatedAt?: string;
 }
 
-// Define the type for the params
-interface ServicePageParams {
-  service: string;
+// Fixed PageProps type for Next.js 15
+type PageProps = {
+  params: Promise<{ service: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function ServicePortfolio({ params }: PageProps) {
+  // Await the params Promise
+  const { service } = await params;
+  const serviceConfig = services[service as keyof typeof services];
+
+  if (!serviceConfig) {
+    notFound();
+  }
+
+  // Return the client component with the resolved service
+  return <ServicePortfolioClient service={service} serviceConfig={serviceConfig} />;
 }
 
-export default function ServicePortfolio({ params }: { params: ServicePageParams }) {
-  // Properly type the params with React.use
-  const { service } = React.use<ServicePageParams>(params as unknown as PromiseLike<ServicePageParams>);
-  const serviceConfig = services[service as keyof typeof services];
+// Separate client component for the interactive parts
+function ServicePortfolioClient({ 
+  service, 
+  serviceConfig 
+}: { 
+  service: string; 
+  serviceConfig: { name: string; type: string } 
+}) {
   const router = useRouter();
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  if (!serviceConfig) {
-    notFound();
-  }
 
   // Fetch portfolio items
   useEffect(() => {
@@ -123,10 +130,6 @@ export default function ServicePortfolio({ params }: { params: ServicePageParams
       ]
     });
   };
-
-  if (!serviceConfig) {
-    return notFound();
-  }
 
   return (
     <div>
@@ -220,15 +223,7 @@ export default function ServicePortfolio({ params }: { params: ServicePageParams
                 </div>
               </Link>
               <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
-                <div className="flex justify-end space-x-3">
-                  <Link 
-                    href={`/admin/services/${params.service}/edit/${item._id}`}
-                    className="text-sm text-indigo-600 hover:text-indigo-900 hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Edit
-                  </Link>
-                  <span className="text-gray-300">|</span>
+                <div className="flex justify-end">
                   <button 
                     className="text-sm text-red-600 hover:text-red-900 hover:underline"
                     onClick={(e) => {

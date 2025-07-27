@@ -3,6 +3,7 @@
 import { Linkedin, Twitter, Mail } from 'lucide-react';
 import ScrollAnimation from './ScrollAnimation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const FounderSection = () => {
   // Generate particles effect similar to other sections
@@ -80,7 +81,7 @@ const FounderSection = () => {
         <div className="mt-24">
           <ScrollAnimation duration={0.7} delay={0.1} direction="up" once={false}>
             <h2 className="text-3xl lg:text-5xl font-bold text-center mb-16">
-              Meet Our <span className="gradient-text">Founders and Cofounders</span>
+              Meet Our <span className="gradient-text">Founder</span>
             </h2>
           </ScrollAnimation>
 
@@ -88,11 +89,14 @@ const FounderSection = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
             <ScrollAnimation duration={0.7} delay={0.2} direction="left" once={false}>
               <div className="relative">
-                <div className="aspect-square overflow-hidden rounded-2xl h-full">
-                  <img 
+                <div className="aspect-square overflow-hidden rounded-2xl h-full relative">
+                  <Image 
                     src="/Founder.png" 
-                    alt="Sarah Johnson - CEO & Co-Founder"
-                    className="w-full h-full object-top object-cover"
+                    alt="Morshadul Mortoja - CEO & Founder"
+                    fill
+                    className="object-top object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
                   />
                 </div>
               </div>
@@ -100,11 +104,11 @@ const FounderSection = () => {
             <ScrollAnimation duration={0.7} delay={0.3} direction="right" once={false}>
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Sarah Johnson</h3>
-                  <p className="text-[#7784e4] text-lg">CEO & Co-Founder</p>
+                  <h3 className="text-2xl font-bold text-white">Morshadul Mortoja</h3>
+                  <p className="text-[#7784e4] text-lg">CEO & Founder</p>
                 </div>
                 <p className="text-[#b8c5ff] leading-relaxed">
-                  With over 12 years of experience in digital strategy and creative direction, Sarah leads our team with a vision for innovation and excellence. Her expertise in user experience design has helped shape products used by millions worldwide.
+                  Visual Artist, Animator, and 3D Designer with a passion for creating immersive digital experiences. Leading the creative vision with innovative design and animation expertise.
                 </p>
                 <div className="flex space-x-4 pt-2">
                   <a href="#" className="text-[#b8c5ff] hover:text-[#7784e4] transition-colors">
@@ -121,15 +125,19 @@ const FounderSection = () => {
             </ScrollAnimation>
           </div>
 
-          {/* Founder 2 - Image Right */}
+          {/* Second founder card hidden as per request */}
+          {/* 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollAnimation duration={0.7} delay={0.2} direction="left" once={false} className="lg:order-2">
               <div className="relative">
-                <div className="aspect-square overflow-hidden rounded-2xl h-full">
-                  <img 
+                <div className="aspect-square overflow-hidden rounded-2xl h-full relative">
+                  <Image 
                     src="/Founder.png" 
                     alt="Michael Chen - CTO & Co-Founder"
-                    className="w-full h-full object-top object-cover"
+                    fill
+                    className="object-top object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
                   />
                 </div>
               </div>
@@ -157,6 +165,7 @@ const FounderSection = () => {
               </div>
             </ScrollAnimation>
           </div>
+          */}
         </div>
       </div>
     </section>

@@ -270,8 +270,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <div className="text-[#b8c5ff] text-sm">Email</div>
-                    <a href="mailto:hello@nexus.com" className="text-white font-medium hover:text-[#a78bfa] transition-colors duration-300">
-                      hello@nexus.com
+                    <a href="mailto:triplembravo@gmail.com" className="text-white font-medium hover:text-[#a78bfa] transition-colors duration-300">
+                      triplembravo@gmail.com
                     </a>
                   </div>
                 </div>
@@ -282,8 +282,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <div className="text-[#b8c5ff] text-sm">Phone</div>
-                    <a href="tel:+15551234567" className="text-white font-medium hover:text-[#a78bfa] transition-colors duration-300">
-                      +1 (555) 123-4567
+                    <a href="tel:+8801620264528" className="text-white font-medium hover:text-[#a78bfa] transition-colors duration-300">
+                      +880 1620-264528
                     </a>
                   </div>
                 </div>
@@ -294,9 +294,9 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <div className="text-[#b8c5ff] text-sm">Location</div>
-                    <div className="text-white font-medium">San Francisco, CA</div>
+                    <div className="text-white font-medium">Chittagong, Bangladesh</div>
                     <a 
-                      href="https://maps.google.com" 
+                      href="https://www.google.com/maps/place/Chittagong" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-sm text-[#7784e4] hover:underline inline-block mt-1"

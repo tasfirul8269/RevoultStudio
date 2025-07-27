@@ -1,5 +1,6 @@
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
+import Image from 'next/image';
 
 type FileType = 'image' | 'video';
 
@@ -128,11 +129,15 @@ export default function FileInput({
         ) : (
           <div className="relative group">
             {fileType === 'image' ? (
-              <img
-                src={previewUrl}
-                alt="Preview"
-                className="max-h-64 max-w-full rounded-md object-cover"
-              />
+              <div className="relative w-full h-64">
+                <Image
+                  src={previewUrl}
+                  alt="Preview"
+                  fill
+                  className="rounded-md object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             ) : (
               <video
                 src={previewUrl}
