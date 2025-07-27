@@ -21,7 +21,7 @@ export default function WebDevelopmentPage() {
       title: "E-Commerce Platform",
       description: "Modern e-commerce solution with advanced features and seamless user experience.",
       tech: ["React", "Node.js", "MongoDB"],
-      image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800"
+      image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399051355628372058/photo-1461749280684-dccba630e2f6.png?ex=6887979c&is=6886461c&hm=f5d801bae03c2135740cea737e1d1da6629f99eff085edc4cc47f95cb3b9391a&"
     },
     {
       title: "SaaS Dashboard",

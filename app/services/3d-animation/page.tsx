@@ -50,37 +50,37 @@ const portfolioItems = [
     title: "Architectural Visualization",
     description: "Realistic 3D models and renders for architectural projects.",
     tech: ["3ds Max", "V-Ray", "Photoshop"],
-    image: "https://images.pexels.com/photos/873217/pexels-photo-873217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399050469250433054/premium_photo-1698846873170-cb46c8998d1d.png?ex=688796c8&is=68864548&hm=0333648c6b7ac76c439000c5ae8de7022fb6e38c916936951efe546ca69d81df&"
   },
   {
     title: "Character Animation",
     description: "Dynamic character animations for video games and films.",
     tech: ["Maya", "Blender", "Zbrush"],
-    image: "https://images.pexels.com/photos/276792/pexels-photo-276792.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399050576209252402/photo-1625014618427-fbc980b974f5.png?ex=688796e2&is=68864562&hm=8eba0139a4caa80450362a2177f77d88aab7722d564b14eb33c78a67e79717ff&"
   },
   {
     title: "Product Rendering",
     description: "High-quality product renders for marketing and advertising.",
     tech: ["Cinema 4D", "KeyShot", "Illustrator"],
-    image: "https://images.pexels.com/photos/1212405/pexels-photo-1212405.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://images.unsplash.com/photo-1627163439134-7a8c47e08208?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D1"
   },
   {
     title: "3D Character Design",
     description: "Custom 3D character creation for games and animations.",
     tech: ["ZBrush", "Maya", "Substance Painter"],
-    image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://plus.unsplash.com/premium_photo-1669916848494-a81f9f3130a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fDNkJTIwYW5pbWF0aW9ufGVufDB8fDB8fHww"
   },
   {
     title: "Medical Animation",
     description: "Accurate 3D medical visualizations for education and training.",
     tech: ["Maya", "Blender", "After Effects"],
-    image: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://images.unsplash.com/photo-1661837505051-48e52591e1ac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fDNkJTIwYW5pbWF0aW9ufGVufDB8fDB8fHww"
   },
   {
     title: "3D Environment Design",
     description: "Immersive 3D environments for games and virtual reality.",
     tech: ["Unreal Engine", "Blender", "Substance Painter"],
-    image: "https://images.pexels.com/photos/176851/pexels-photo-176851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399050605778964633/photo-1637416067365-2b5e7e8fe8fa.png?ex=688796e9&is=68864569&hm=29a95ec8902bdaaa08f40469ce892d3f71adf5e3aef1dce7348dd639acf1d6f4&"
   }
 ];
 
@@ -151,12 +151,12 @@ export default function ThreeDAnimationPage() {
             <p className="mt-6">Whether you need a simple 3D model or a complete animated production, our team has the skills and experience to deliver exceptional results. We work closely with clients to understand their vision and bring it to life with creativity and technical excellence.</p>
           </div>
         }
-        image="https://images.pexels.com/photos/239525/pexels-photo-239525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        image="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1478&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         reversed
       />
       
 <ServicePortfolio 
-        title="3D Animation Portfolio"
+        title="3D Animation"
         description="Explore our collection of 3D animation and modeling projects"
         portfolioItems={portfolioItems}
       />

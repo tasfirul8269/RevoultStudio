@@ -103,8 +103,8 @@ const HeroSection = () => {
             <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
               <ScrollAnimation duration={0.5} delay={0.1} direction="up" once={false}>
                 <div className="inline-flex items-center space-x-2">
-                  <span className="gradient-from-[#c5c5ff] gradient-to-[#9c5fff] gradient-text ">Revolutionize</span>
-                  <span className="text-[#e5dbff]">Your Brand</span>
+                  <span className="gradient-from-[#c5c5ff] gradient-to-[#9c5fff] gradient-text ">Revoult</span>
+                  <span className="text-[#e5dbff]">Studio</span>
                 </div>
               </ScrollAnimation>
             </h1>
@@ -116,22 +116,15 @@ Transforming visions into stunning visual realities through video editing, web d
             </ScrollAnimation>
             
             <ScrollAnimation duration={0.7} delay={0.5} direction="up" once={false}>
-              <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
+              <div ref={ctaRef} className="flex justify-center">
+                <button 
                   onClick={() => scrollToSection('contact')}
                   className="btn-primary group flex items-center gap-3 px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform bg-gradient-to-r from-[#a78bfa] to-[#c5b7ec] text-[#1b133f]"
                 >
                   <Sparkles size={20} className="group-hover:rotate-12 transition-transform duration-300" />
                   Get Started
                 </button>
-              <button 
-                  onClick={() => scrollToSection('services')}
-                  className="btn-secondary group flex items-center gap-3 px-8 py-4 rounded-full text-lg font-semibold border-2 border-[#a78bfa] text-white hover:bg-[#a78bfa]/10 transition-all"
-                >
-                  <Play size={20} className="group-hover:scale-110 transition-transform" />
-                  Watch Demo
-                </button>
-            </div>
+              </div>
             </ScrollAnimation>
             
             <ScrollAnimation duration={0.5} delay={0.6} direction="up" once={false}>
