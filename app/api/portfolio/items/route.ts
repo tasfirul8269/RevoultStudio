@@ -43,8 +43,14 @@ export async function POST(request: Request) {
     const description = formData.get('description') as string;
     const service = formData.get('service') as string;
     const projectUrl = formData.get('projectUrl') as string;
+    const technologiesRaw = formData.get('technologies') as string | null;
     const file = formData.get('file') as File | null;
     const thumbnail = formData.get('thumbnail') as File | null;
+    
+    // Parse technologies from comma-separated string to array
+    const technologies = technologiesRaw 
+      ? technologiesRaw.split(',').map(t => t.trim()).filter(Boolean)
+      : [];
 
     // Validate required fields
     if (!title || !description || !service || !file) {
@@ -67,37 +73,17 @@ export async function POST(request: Request) {
     const fileType = service === 'video-editing' || service === '3d-animation' ? 'video' : 'image';
 
     // Upload files to Cloudinary
-    console.log('=== Starting file upload process ===');
-    console.log('File details:', {
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      lastModified: file.lastModified,
-      service,
-      fileType
-    });
-    
-    let fileUploadResult;
+    let fileUploadResult = null;
     try {
       // Verify file size (max 50MB)
       const maxSize = 50 * 1024 * 1024; // 50MB
       if (file.size > maxSize) {
         throw new Error(`File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size (50MB)`);
       }
-      
       // Read file buffer
-      console.log('Reading file buffer...');
       const fileBuffer = await file.arrayBuffer().then(buf => Buffer.from(buf));
-      console.log(`File buffer created, size: ${(fileBuffer.length / 1024 / 1024).toFixed(2)}MB`);
-      
       // Upload to Cloudinary
-      console.log('Starting Cloudinary upload...');
       fileUploadResult = await uploadFile(fileBuffer, service, fileType);
-      
-      console.log('=== File upload successful ===');
-      console.log('URL:', fileUploadResult.url);
-      console.log('Public ID:', fileUploadResult.publicId);
-      
     } catch (uploadError) {
       console.error('=== File upload failed ===');
       console.error('Error details:', {
@@ -122,14 +108,11 @@ export async function POST(request: Request) {
     let thumbnailUploadResult = null;
     if (thumbnail) {
       try {
-        console.log('Uploading thumbnail to Cloudinary...');
         const thumbnailBuffer = Buffer.from(await thumbnail.arrayBuffer());
         thumbnailUploadResult = await uploadFile(thumbnailBuffer, `${service}/thumbnails`);
-        console.log('Thumbnail upload successful:', thumbnailUploadResult);
       } catch (uploadError) {
         console.error('Error uploading thumbnail to Cloudinary:', uploadError);
         // Continue without thumbnail if upload fails
-        console.log('Continuing without thumbnail due to upload error');
       }
     }
 
@@ -145,6 +128,7 @@ export async function POST(request: Request) {
       publicId: fileUploadResult.publicId, // Using publicId from uploadFile result
       fileType,
       projectUrl: projectUrl || undefined,
+      technologies, // Add technologies array
       ...(thumbnailUploadResult && {
         thumbnailUrl: thumbnailUploadResult.url, // Using url for thumbnail
         thumbnailPublicId: thumbnailUploadResult.publicId // Using publicId for thumbnail
@@ -177,14 +161,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { success: false, message: 'Not authenticated' },
-        { status: 401 }
-      );
-    }
+    // No authentication required for public access to portfolio items
 
     await dbConnect();
     

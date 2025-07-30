@@ -63,6 +63,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        // Add the JWT token to the session
+        (session as any).token = token;
       }
       return session;
     },

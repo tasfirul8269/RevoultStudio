@@ -3,6 +3,7 @@ import ServiceHero from '@/components/ServiceHero';
 import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceDescription from '@/components/ServiceDescription';
 import ServicePortfolio from '@/components/ServicePortfolio';
+import { getPortfolioItems } from '@/lib/portfolio-utils';
 
 // Define metadata for the page
 export const metadata: Metadata = {
@@ -54,46 +55,6 @@ const features = [
   },
 ];
 
-// Portfolio items specific to Website Development
-const portfolioItems = [
-  {
-    title: 'Business Website',
-    description: 'A modern, responsive website for a local business',
-    image: 'https://cdn.discordapp.com/attachments/1318942694890016828/1399051355628372058/photo-1461749280684-dccba630e2f6.png?ex=6887979c&is=6886461c&hm=f5d801bae03c2135740cea737e1d1da6629f99eff085edc4cc47f95cb3b9391a&',
-    tech: ['React', 'Next.js', 'Tailwind CSS', 'Node.js']
-  },
-  {
-    title: 'E-Commerce Store',
-    description: 'A full-featured online store with product catalog and checkout',
-    image: 'https://cdn.discordapp.com/attachments/1318942694890016828/1399051395826585793/photo-1467232004584-a241de8bcf5d.png?ex=688797a5&is=68864625&hm=f5a52d4e6f32d52ac581f168a13830e435a5b08d3f8c0deba315c835ebe5b20e&',
-    tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS3']
-  },
-  {
-    title: 'Web Application',
-    description: 'Custom web application with user authentication and dashboard',
-    image: 'https://images.unsplash.com/photo-1558174685-430919a96c8d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHdlYnNpdGV8ZW58MHx8MHx8fDA%3D',
-    tech: ['React', 'TypeScript', 'Node.js', 'MongoDB']
-  },
-  {
-    title: 'Web Application',
-    description: 'Custom web application with user authentication and dashboard',
-    image: 'https://cdn.discordapp.com/attachments/1318942694890016828/1399051559702233088/photo-1519222970733-f546218fa6d7.png?ex=688797cc&is=6886464c&hm=b57c48874346157bdcce1011efb638d9eebc176d741e6e692b3a20d8d60dae91&',
-    tech: ['React', 'TypeScript', 'Node.js', 'MongoDB']
-  },
-  {
-    title: 'Web Application',
-    description: 'Custom web application with user authentication and dashboard',
-    image: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?mark=https%3A%2F%2Fimages.unsplash.com%2Fopengraph%2Flogo.png&mark-w=64&mark-align=top%2Cleft&mark-pad=50&h=630&w=1200&crop=faces%2Cedges&blend-w=1&blend=000000&blend-mode=normal&blend-alpha=10&auto=format&fit=crop&q=60&ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzUzNjMzNzMwfA&ixlib=rb-4.1.0',
-    tech: ['React', 'TypeScript', 'Node.js', 'MongoDB']
-  },
-  {
-    title: 'Web Application',
-    description: 'Custom web application with user authentication and dashboard',
-    image: 'https://cdn.discordapp.com/attachments/1318942694890016828/1399066568528498738/photo-1547658719-da2b51169166.png?ex=6887a5c7&is=68865447&hm=00e558ef090913d51bedaa498b27b5cc48f4f83f1a40791fc641cb005f600b74&',
-    tech: ['React', 'TypeScript', 'Node.js', 'MongoDB']
-  },
-];
-
 // Service description content
 const serviceDescription = {
   title: 'Custom Website Development',
@@ -116,7 +77,10 @@ const serviceDescription = {
   ],
 };
 
-export default function WebsiteDevelopmentPage() {
+export default async function WebsiteDevelopmentPage() {
+  // Fetch portfolio items for Website Development
+  const portfolioData = await getPortfolioItems('website-development');
+
   return (
     <main className="min-h-screen">
       <ServiceHero 
@@ -183,10 +147,10 @@ export default function WebsiteDevelopmentPage() {
         }
       />
       
-      <ServicePortfolio
-        title="Our Recent Web Projects"
-        description="Explore our successful website development projects"
-        portfolioItems={portfolioItems}
+      <ServicePortfolio 
+        title="Our Web Development Work"
+        description="Explore our portfolio of web development projects"
+        portfolioItems={portfolioData}
       />
     </main>
   );

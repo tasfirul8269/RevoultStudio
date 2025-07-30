@@ -5,6 +5,43 @@ import dbConnect from '@/lib/db';
 import Portfolio from '@/models/Portfolio';
 import { uploadFile, deleteFile } from '@/lib/fileUpload';
 
+// GET /api/portfolio/items/[id]
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // Await the params Promise (Next.js 15 requirement)
+    const { id } = await params;
+    
+    await dbConnect();
+    
+    const portfolioItem = await Portfolio.findById(id).lean();
+    
+    if (!portfolioItem) {
+      return NextResponse.json(
+        { success: false, message: 'Portfolio item not found' },
+        { status: 404 }
+      );
+    }
+    
+    // Convert _id to id and remove __v
+    const { _id, __v, ...item } = portfolioItem;
+    
+    return NextResponse.json({
+      success: true,
+      data: { id: _id.toString(), ...item }
+    });
+    
+  } catch (error) {
+    console.error('Error fetching portfolio item:', error);
+    return NextResponse.json(
+      { success: false, message: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -28,9 +65,15 @@ export async function PUT(
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
     const projectUrl = formData.get('projectUrl') as string;
+    const technologiesRaw = formData.get('technologies') as string | null;
     const file = formData.get('file') as File | null;
     const thumbnail = formData.get('thumbnail') as File | null;
     const removeThumbnail = formData.get('removeThumbnail') === 'true';
+    
+    // Parse technologies from comma-separated string to array
+    const technologies = technologiesRaw 
+      ? technologiesRaw.split(',').map(t => t.trim()).filter(Boolean)
+      : [];
 
     // Validate required fields
     if (!title || !description) {
@@ -95,6 +138,7 @@ export async function PUT(
         fileUrl,
         thumbnailUrl,
         projectUrl: projectUrl || null,
+        technologies, // Update technologies array
       },
       { new: true }
     );
@@ -117,7 +161,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Await the params Promise (Next.js 15 requirement)
     const { id } = await params;
     
     // Check authentication

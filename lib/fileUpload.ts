@@ -13,11 +13,6 @@ export async function uploadFile(
   folder: string,
   resourceType: 'image' | 'video' = 'image'
 ): Promise<{ url: string; publicId: string }> {
-  console.log('Starting file upload to Cloudinary...', {
-    folder,
-    resourceType,
-    bufferSize: fileBuffer.length
-  });
 
   // Verify Cloudinary configuration
   if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
@@ -33,8 +28,6 @@ export async function uploadFile(
       timeout: 30000, // 30 seconds timeout
       chunk_size: 6000000, // 6MB chunks for larger files
     };
-
-    console.log('Cloudinary upload options:', uploadOptions);
 
     const uploadStream = cloudinary.uploader.upload_stream(
       uploadOptions,
@@ -54,15 +47,6 @@ export async function uploadFile(
           console.error(error);
           return reject(error);
         }
-
-        console.log('Cloudinary upload successful:', {
-          url: result.secure_url,
-          publicId: result.public_id,
-          format: result.format,
-          bytes: result.bytes,
-          width: result.width,
-          height: result.height
-        });
 
         resolve({
           url: result.secure_url,

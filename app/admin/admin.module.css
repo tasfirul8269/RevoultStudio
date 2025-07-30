@@ -1,0 +1,4 @@
+/* Hide footer in admin panel */
+:global(footer) {
+  display: none !important;
+}

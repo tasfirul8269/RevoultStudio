@@ -40,6 +40,16 @@ const PortfolioSchema = new Schema<IPortfolio>(
       required: [true, 'Please provide a file type'],
       enum: ['image', 'video'],
     },
+    technologies: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: function(techs: string[]) {
+          return techs.every(tech => typeof tech === 'string' && tech.trim().length > 0);
+        },
+        message: 'Technologies must be an array of non-empty strings'
+      }
+    },
   },
   {
     timestamps: true,
@@ -48,6 +58,7 @@ const PortfolioSchema = new Schema<IPortfolio>(
 
 export interface IPortfolio extends Document {
   service: 'video-editing' | 'graphics-design' | '3d-animation' | 'website-development';
+  technologies: string[];
   title: string;
   description: string;
   fileUrl: string;

@@ -110,7 +110,7 @@ const FounderSection = () => {
                 <p className="text-[#b8c5ff] leading-relaxed">
                   Visual Artist, Animator, and 3D Designer with a passion for creating immersive digital experiences. Leading the creative vision with innovative design and animation expertise.
                 </p>
-                <div className="flex space-x-4 pt-2">
+                {/* <div className="flex space-x-4 pt-2">
                   <a href="#" className="text-[#b8c5ff] hover:text-[#7784e4] transition-colors">
                     <Linkedin size={20} />
                   </a>
@@ -120,7 +120,7 @@ const FounderSection = () => {
                   <a href="#" className="text-[#b8c5ff] hover:text-[#7784e4] transition-colors">
                     <Mail size={20} />
                   </a>
-                </div>
+                </div> */}
               </div>
             </ScrollAnimation>
           </div>

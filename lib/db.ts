@@ -32,7 +32,6 @@ if (!global.mongoose) {
 
 async function dbConnect(): Promise<typeof mongoose> {
   if (cached.conn) {
-    console.log('Using existing database connection');
     return cached.conn;
   }
 
@@ -43,24 +42,18 @@ async function dbConnect(): Promise<typeof mongoose> {
       socketTimeoutMS: 45000, // 45 seconds timeout
     };
 
-    console.log('Creating new database connection to MongoDB...');
-    
     cached.promise = mongoose.connect(MONGODB_URI, opts)
       .then((mongoose) => {
-        console.log('Successfully connected to MongoDB');
         return mongoose;
       })
       .catch((error) => {
-        console.error('MongoDB connection error:', error);
         throw new Error(`Failed to connect to MongoDB: ${error.message}`);
       });
   }
   
   try {
-    console.log('Waiting for database connection...');
     cached.conn = await cached.promise;
   } catch (e) {
-    console.error('Database connection failed:', e);
     cached.promise = null;
     throw new Error(`Database connection failed: ${e instanceof Error ? e.message : 'Unknown error'}`);
   }

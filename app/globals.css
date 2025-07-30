@@ -35,6 +35,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide footer in admin panel */
+body.admin-panel footer {
+  display: none !important;
+}
+
 /* Section container styling */
 .section-container {
   min-height: 100vh;

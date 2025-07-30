@@ -66,7 +66,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
         return;
       }
       
-      console.log(`File selected for ${name}:`, file);
       setFormData(prev => ({
         ...prev,
         [name]: file
@@ -88,7 +87,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
     setError(null);
     
     try {
-      console.log('Preparing form data...');
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
@@ -99,24 +97,19 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
         throw new Error('Please select a file to upload');
       }
       
-      console.log('Appending file to form data...');
       formDataToSend.append('file', formData.file);
       
       if (formData.thumbnail) {
-        console.log('Appending thumbnail to form data...');
         formDataToSend.append('thumbnail', formData.thumbnail);
       }
       
-      console.log('Sending request to API...');
       const response = await fetch('/api/portfolio/items', {
         method: 'POST',
         body: formDataToSend,
         // Don't set Content-Type header, let the browser set it with the correct boundary
       });
 
-      console.log('Response status:', response.status);
       const result = await response.json().catch(() => ({}));
-      console.log('Response data:', result);
 
       if (!response.ok) {
         throw new Error(result.message || result.error || `Server responded with status ${response.status}`);
@@ -127,7 +120,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
       router.push(`/admin/services/${serviceSlug}`);
       router.refresh();
     } catch (error) {
-      console.error('Error saving portfolio item:', error);
       const errorMessage = error instanceof Error 
         ? error.message 
         : typeof error === 'string' 

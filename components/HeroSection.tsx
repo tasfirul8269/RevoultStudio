@@ -68,7 +68,6 @@ const HeroSection = () => {
     // Handle video autoplay on mount
     if (videoRef.current) {
       videoRef.current.play().catch(error => {
-        console.log('Autoplay prevented, showing fallback content');
       });
     }
 
@@ -91,7 +90,7 @@ const HeroSection = () => {
           disablePictureInPicture
           className="w-full h-full object-cover"
         >
-          <source src="/b1.mp4" type="video/mp4" />
+          <source src="/heroVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>

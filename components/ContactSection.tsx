@@ -62,8 +62,20 @@ const ContactSection = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+      
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
       
@@ -73,6 +85,7 @@ const ContactSection = () => {
       }, 5000);
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('Failed to send message. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }

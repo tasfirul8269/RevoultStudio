@@ -3,6 +3,7 @@ import ServiceHero from '@/components/ServiceHero';
 import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceDescription from '@/components/ServiceDescription';
 import ServicePortfolio from '@/components/ServicePortfolio';
+import { getPortfolioItems } from '@/lib/portfolio-utils';
 
 // Define metadata for the page
 export const metadata: Metadata = {
@@ -69,47 +70,10 @@ const features = [
   },
 ];
 
-// Graphics Design portfolio items
-const portfolioItems = [
-  {
-    title: "Corporate Branding",
-    description: "Comprehensive branding project for a multinational corporation.",
-    tech: ["Photoshop", "Illustrator", "InDesign"],
-    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399049191183089874/premium_photo-1661382011487-cd3d6b1d9dff.png?ex=68879598&is=68864418&hm=87f7cd5a3de02ef808a3a78ea6068b81e04aa4ab96f5b8d65f3434bbbbc6f6ff&"
-  },
-  {
-    title: "E-commerce Website Design",
-    description: "User-centric website design for an online clothing store.",
-    tech: ["Sketch", "Figma", "Adobe XD"],
-    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399049239346020464/photo-1600869009498-8d429f88d4f5.png?ex=688795a3&is=68864423&hm=dc46c7a67a9ce4d22830c16be0c3c67fd45a36d21c3b31864233637d09da7693&"
-  },
-  {
-    title: "Social Media Campaign",
-    description: "Eye-catching graphics for a successful social media marketing campaign.",
-    tech: ["Canva", "Photoshop", "Illustrator"],
-    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399049292932448266/photo-1685661242103-888850e9b8b8.png?ex=688795b0&is=68864430&hm=da5c0b05d841673948546b72212bf09c054dd43d0b988418a26afaa72e2ce548&"
-  },
-  {
-    title: "Product Packaging",
-    description: "Innovative packaging design that stands out on the shelves.",
-    tech: ["Illustrator", "InDesign", "Dimension"],
-    image: "https://plus.unsplash.com/premium_photo-1716205759651-e357bb33a257?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  },
-  {
-    title: "UI/UX Design",
-    description: "Intuitive user interface design for web and mobile applications.",
-    tech: ["Figma", "Sketch", "Adobe XD"],
-    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399049654393503866/photo-1681164315734-355fb1131685.png?ex=68879606&is=68864486&hm=d4c9aeaeb250e0bdd4e206871aa6b4edcda5730594174146865d3aa6237ad83d&"
-  },
-  {
-    title: "Print Advertisement",
-    description: "Creative print ads for magazines and outdoor advertising.",
-    tech: ["InDesign", "Photoshop", "Illustrator"],
-    image: "https://cdn.discordapp.com/attachments/1318942694890016828/1399049680477880331/photo-1681164315747-ce3114015a55.png?ex=6887960c&is=6886448c&hm=6f190a1879c1409c6cef9d0019a6e86acba3c5738910b3b65cada2aff0771154&"
-  }
-];
+export default async function GraphicsDesignPage() {
+  // Fetch portfolio items for Graphics Design
+  const portfolioData = await getPortfolioItems('graphics-design');
 
-export default function GraphicsDesignPage() {
   return (
     <>
       <ServiceHero 
@@ -166,10 +130,10 @@ export default function GraphicsDesignPage() {
         image="https://images.pexels.com/photos/3184430/pexels-photo-3184430.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
       
-<ServicePortfolio 
-        title="Design Portfolio"
-        description="Explore our collection of professional design work"
-        portfolioItems={portfolioItems}
+      <ServicePortfolio 
+        title="Our Graphics Design Work"
+        description="Explore our portfolio of stunning graphics design projects"
+        portfolioItems={portfolioData}
       />
     </>
   );

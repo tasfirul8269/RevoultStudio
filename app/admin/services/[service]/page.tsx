@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -48,9 +48,9 @@ type PageProps = {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default async function ServicePortfolio({ params }: PageProps) {
+export default function ServicePortfolio({ params }: PageProps) {
   // Await the params Promise
-  const { service } = await params;
+  const { service } = use(params);
   const serviceConfig = services[service as keyof typeof services];
 
   if (!serviceConfig) {
@@ -132,25 +132,29 @@ function ServicePortfolioClient({
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-8">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-800">{serviceConfig.name} Portfolio</h2>
-          <p className="text-gray-600">
+          <h1 className="text-2xl font-bold text-white">{serviceConfig.name} Portfolio</h1>
+          <p className="text-[#b8c5ff]">
             Manage your {serviceConfig.name.toLowerCase()} portfolio items
           </p>
         </div>
         <Link
           href={`/admin/services/${service}/add`}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 border border-[#1a1a2e] rounded-lg text-sm font-medium text-white bg-[#1a1a2e] hover:bg-[#24243d] transition-colors"
         >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
           Add New Item
         </Link>
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        <div className="flex justify-center items-center py-16">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#7784e4]"></div>
         </div>
       ) : items.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">

@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 import { authOptions } from '@/lib/auth';
 import { Providers } from '@/app/providers';
 import ScrollProgress from '../components/ScrollProgress';
@@ -19,7 +20,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const [session, headersList] = await Promise.all([
+    getServerSession(authOptions),
+    headers()
+  ]);
+  
+  // Safely get the pathname from headers
+  const pathname = headersList?.get('x-pathname') || '';
+  const isAdminRoute = pathname.startsWith('/admin');
 
   return (
     <html lang="en">
@@ -27,7 +35,7 @@ export default async function RootLayout({
         <Providers session={session}>
           <ScrollProgress />
           {children}
-          <Footer />
+          {!isAdminRoute && <Footer />}
         </Providers>
       </body>
     </html>
