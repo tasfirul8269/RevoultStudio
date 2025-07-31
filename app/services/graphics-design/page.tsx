@@ -79,7 +79,7 @@ export default async function GraphicsDesignPage() {
       <ServiceHero 
         title="Professional Graphics Design"
         description="Comprehensive design solutions for all your branding and marketing needs. From logos and social media graphics to print materials and photo editing, we bring your vision to life with creativity and precision."
-        videoSrc="/b2.mp4"
+        videoSrc="/servicehero.mp4"
       />
       
       <ServiceDescription

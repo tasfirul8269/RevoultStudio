@@ -42,7 +42,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-white mb-2">
-            Welcome to <span className="gradient-text">NEXUS</span>
+            Welcome to <span className="gradient-text">REVOULT STUDIO</span>
           </h1>
           <p className="text-[#b8c5ff]">Sign in to access the admin dashboard</p>
         </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 <label htmlFor="password" className="block text-sm font-medium text-[#b8c5ff]">
                   Password
                 </label>
-                <Link href="/admin/forgot-password" className="text-xs text-[#7784e4] hover:text-[#5f6bc9] transition-colors">
+                <Link href="/auth/forgot-password" className="text-xs text-[#7784e4] hover:text-[#5f6bc9] transition-colors">
                   Forgot password?
                 </Link>
               </div>

@@ -18,8 +18,8 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    firstName: '',
+    lastName: '',
     subject: '',
     message: ''
   });
@@ -59,36 +59,25 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
-      }
-      
-      setSubmitSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 5000);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Failed to send message. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Encode the email components
+    const recipient = 'revoultstudio@gmail.com'; // Your email address
+    const subject = formData.subject || 'New Contact Form Submission';
+    const body = `Name: ${formData.firstName} ${formData.lastName}\n\n` +
+                (formData.message || 'No message provided');
+    
+    // Open Gmail in a new tab
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    
+    // Show success message
+    setSubmitSuccess(true);
+    setFormData({ firstName: '', lastName: '', subject: '', message: '' });
+    
+    // Reset success message after 5 seconds
+    setTimeout(() => {
+      setSubmitSuccess(false);
+    }, 5000);
   };
 
   // Generate particles effect similar to HeroSection
@@ -179,44 +168,44 @@ const ContactSection = () => {
           <ScrollAnimation duration={0.7} delay={0.2} direction="up" once={false}>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
+                <div className="group">
+                  <label className="block text-[#b8c5ff] mb-2 font-medium">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-[#040422]/50 border border-[#7784e4]/30 rounded-lg text-white placeholder-[#b8c5ff]/30 focus:border-[#7784e4] focus:ring-1 focus:ring-[#7784e4] focus:outline-none transition-all duration-300 group-hover:border-[#7784e4]/60"
+                    placeholder="First name"
+                    required
+                  />
+                </div>
+                <div className="group">
+                  <label className="block text-[#b8c5ff] mb-2 font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-[#040422]/50 border border-[#7784e4]/30 rounded-lg text-white placeholder-[#b8c5ff]/30 focus:border-[#7784e4] focus:ring-1 focus:ring-[#7784e4] focus:outline-none transition-all duration-300 group-hover:border-[#7784e4]/60"
+                    placeholder="Last name"
+                    required
+                  />
+                </div>
+              </div>
+              
               <div className="group">
-                <label className="block text-[#b8c5ff] mb-2 font-medium">Name</label>
+                <label className="block text-[#b8c5ff] mb-2 font-medium">Subject</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-[#040422]/50 border border-[#7784e4]/30 rounded-lg text-white placeholder-[#b8c5ff]/30 focus:border-[#7784e4] focus:ring-1 focus:ring-[#7784e4] focus:outline-none transition-all duration-300 group-hover:border-[#7784e4]/60"
-                  placeholder="Your name"
+                  placeholder="Subject"
                   required
                 />
               </div>
-              <div className="group">
-                <label className="block text-[#b8c5ff] mb-2 font-medium">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-[#040422]/50 border border-[#7784e4]/30 rounded-lg text-white placeholder-[#b8c5ff]/30 focus:border-[#7784e4] focus:ring-1 focus:ring-[#7784e4] focus:outline-none transition-all duration-300 group-hover:border-[#7784e4]/60"
-                  placeholder="your@email.com"
-                  required
-                />
-              </div>
-            </div>
-            
-            <div className="group">
-              <label className="block text-[#b8c5ff] mb-2 font-medium">Subject</label>
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#040422]/50 border border-[#7784e4]/30 rounded-lg text-white placeholder-[#b8c5ff]/30 focus:border-[#7784e4] focus:ring-1 focus:ring-[#7784e4] focus:outline-none transition-all duration-300 group-hover:border-[#7784e4]/60"
-                placeholder="Project inquiry"
-                required
-              />
-            </div>
             
             <div className="group">
               <label className="block text-[#b8c5ff] mb-2 font-medium">Message</label>

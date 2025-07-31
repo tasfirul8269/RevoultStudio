@@ -1,9 +1,15 @@
+require('dotenv').config({ path: '.env.local' });
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcryptjs');
 
 async function createAdmin() {
-  // Connection URI - update this with your MongoDB connection string
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/yourdbname';
+  // Get MongoDB URI from environment variables
+  const uri = process.env.MONGODB_URI;
+  
+  if (!uri) {
+    console.error('❌ Error: MONGODB_URI is not defined in .env.local');
+    process.exit(1);
+  }
   
   const client = new MongoClient(uri);
 

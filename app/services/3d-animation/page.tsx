@@ -54,7 +54,7 @@ export default async function ThreeDAnimationPage() {
       <ServiceHero 
         title="3D Animation & Design"
         description="Transform your ideas into stunning 3D reality. Our expert team delivers high-quality 3D animations, models, and visualizations for games, films, architecture, and more."
-        videoSrc="/b2.mp4"
+        videoSrc="/servicehero.mp4"
       />
       
       <ServiceDescription

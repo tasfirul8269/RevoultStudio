@@ -3,16 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
+import { FiArrowLeft, FiMail, FiLock } from 'react-icons/fi';
 
 export default function AddUserPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     password: '',
-    confirmPassword: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,11 +25,6 @@ export default function AddUserPage() {
     e.preventDefault();
     
     // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
     if (formData.password.length < 6) {
       toast.error('Password must be at least 6 characters');
       return;
@@ -46,7 +39,6 @@ export default function AddUserPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.name,
           email: formData.email,
           password: formData.password,
         }),
@@ -77,7 +69,7 @@ export default function AddUserPage() {
         <FiArrowLeft className="mr-2" /> Back to Users
       </button>
 
-      <div className="bg-[#0a0613] bg-opacity-50 border border-[#1a1a2e] rounded-xl p-6">
+      <div className="bg-[#0a0613] bg-opacity-50 border border-[#1a1a2e] rounded-xl p-6 max-w-2xl">
         <h1 className="text-2xl font-bold text-white mb-2">Add New User</h1>
         <p className="text-[#b8c5ff] mb-6">
           Create a new user account
@@ -85,33 +77,12 @@ export default function AddUserPage() {
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-white mb-1">
-              Full Name
+            <label htmlFor="email" className="block text-sm font-medium text-[#b8c5ff] mb-1">
+              Email Address
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiUser className="h-5 w-5 text-[#b8c5ff]" />
-              </div>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                placeholder="John Doe"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
-              Email Address <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiMail className="h-5 w-5 text-[#b8c5ff]" />
+                <FiMail className="h-5 w-5 text-[#7784e4]" />
               </div>
               <input
                 type="email"
@@ -119,69 +90,58 @@ export default function AddUserPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                placeholder="john@example.com"
+                className="block w-full pl-10 pr-3 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white placeholder-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-[#7784e4] focus:border-transparent transition-colors"
+                placeholder="you@example.com"
                 required
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
-                Password <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-[#b8c5ff]" />
-                </div>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                  placeholder="••••••••"
-                  minLength={6}
-                  required
-                />
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-[#b8c5ff] mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FiLock className="h-5 w-5 text-[#7784e4]" />
               </div>
-              <p className="mt-1 text-xs text-[#b8c5ff]/70">
-                Must be at least 6 characters
-              </p>
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-white mb-1">
-                Confirm Password <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-[#b8c5ff]" />
-                </div>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                  placeholder="••••••••"
-                  minLength={6}
-                  required
-                />
-              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="block w-full pl-10 pr-3 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white placeholder-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-[#7784e4] focus:border-transparent transition-colors"
+                placeholder="••••••••"
+                required
+                minLength={6}
+              />
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="flex justify-end space-x-4 pt-4">
+            <button
+              type="button"
+              onClick={() => router.push('/admin/users')}
+              className="px-4 py-2 border border-[#1a1a2e] rounded-lg text-white hover:bg-[#1a1a2e] transition-colors"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#1a1a2e] hover:bg-[#24243d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7784e4] transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+              className={`px-4 py-2 rounded-lg text-white bg-[#7784e4] hover:bg-[#5f6bc9] transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
-              {isSubmitting ? 'Creating User...' : 'Create User'}
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating...
+                </>
+              ) : 'Create User'}
             </button>
           </div>
         </form>

@@ -9,12 +9,9 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 interface User {
   _id: string;
-  name: string;
   email: string;
-  role: 'admin' | 'user';
-  isActive: boolean;
+  isAdmin: boolean;
   createdAt: string;
-  lastLogin?: string;
 }
 
 export default function UsersPage() {
@@ -119,12 +116,11 @@ export default function UsersPage() {
             <thead className="bg-[#1a1a2e] bg-opacity-50">
               <tr>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
-                  User
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
                   Email
                 </th>
-
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
+                  Status
+                </th>
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
                   Actions
                 </th>
@@ -133,7 +129,7 @@ export default function UsersPage() {
             <tbody className="divide-y divide-[#1a1a2e]">
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-sm text-[#b8c5ff]">
+                  <td colSpan={3} className="px-6 py-12 text-center text-sm text-[#b8c5ff]">
                     <div className="flex flex-col items-center justify-center space-y-2">
                       <FiUserX className="w-8 h-8 text-[#7784e4]" />
                       <p>No users found</p>
@@ -149,20 +145,22 @@ export default function UsersPage() {
                           <FiUser className="w-5 h-5" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-white">{user.name}</div>
+                          <div className="text-sm font-medium text-white">{user.email}</div>
                           <div className="text-xs text-[#b8c5ff]">
                             Joined {new Date(user.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#b8c5ff]">
-                      {user.email}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isAdmin ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                        {user.isAdmin ? 'Admin' : 'User'}
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
                         <button
-                          onClick={() => router.push(`/admin/users/edit/${user._id}`)}
+                          onClick={() => router.push(`/admin/users/${user._id}`)}
                           className="text-[#b8c5ff] hover:text-white"
                         >
                           <FiEdit2 className="w-4 h-4" />

@@ -5,6 +5,7 @@ export interface IUser extends Document {
   _id: Types.ObjectId;
   email: string;
   password: string;
+  isAdmin: boolean;
   createdAt: Date;
   matchPassword: (password: string) => Promise<boolean>;
 }
@@ -24,6 +25,10 @@ const UserSchema = new Schema<IUser>({
     required: [true, 'Please provide a password'],
     minlength: 6,
     select: false,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,

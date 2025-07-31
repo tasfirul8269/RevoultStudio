@@ -95,7 +95,7 @@ export default async function VideoEditingPage() {
       <ServiceHero 
         title="Professional Video Editing Services"
         description="Comprehensive video editing solutions for all your needs. From motion graphics and animations to vlog editing and promotional content, we deliver high-quality video production services tailored to your vision."
-        videoSrc="/b2.mp4"
+        videoSrc="/servicehero.mp4"
       />
       
       <ServiceDescription
