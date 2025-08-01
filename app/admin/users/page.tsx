@@ -6,7 +6,6 @@ import { toast } from 'react-hot-toast';
 import { FiPlus, FiTrash2, FiEdit2, FiUser, FiUserX, FiUserCheck } from 'react-icons/fi';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { fetchWithNoCache } from '@/lib/fetchWithNoCache';
 
 interface User {
   _id: string;
@@ -25,7 +24,7 @@ export default function UsersPage() {
     const fetchUsers = async () => {
       try {
         console.log('Fetching users from /api/admin/list-users');
-        const res = await fetchWithNoCache('/api/admin/list-users');
+        const res = await fetch('/api/admin/list-users');
         console.log('Response status:', res.status);
         
         if (!res.ok) {
@@ -62,8 +61,8 @@ export default function UsersPage() {
           onClick: async () => {
             try {
               setIsDeleting(userId);
-              const res = await fetchWithNoCache(`/api/admin/users/${userId}`, {
-                method: 'DELETE'
+              const res = await fetch(`/api/admin/users/${userId}`, {
+                method: 'DELETE',
               });
 
               if (res.ok) {
