@@ -19,22 +19,25 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Revoult Studio - Digital Innovation & Design',
   description: 'Crafting exceptional digital experiences with innovative solutions and cutting-edge technology for your business.',
+  // Add preconnect links for video sources in metadata
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Revoult Studio - Digital Innovation & Design',
+    description: 'Crafting exceptional digital experiences with innovative solutions and cutting-edge technology for your business.',
+    url: '/',
+    siteName: 'Revoult Studio',
+    locale: 'en_US',
+    type: 'website',
+  },
+  // Add cache control headers
   other: {
     'http-equiv': 'Cache-Control',
     content: 'public, max-age=31536000, immutable',
   },
 };
-
-// Add preconnect links for video sources
-export function Head() {
-  return (
-    <>
-      <link rel="preconnect" href="https://your-video-cdn.com" crossOrigin="anonymous" />
-      <link rel="dns-prefetch" href="https://your-video-cdn.com" />
-      {/* Add more domains if your videos are hosted on different domains */}
-    </>
-  );
-}
 
 export default async function RootLayout({
   children,

@@ -9,48 +9,67 @@ const videoPaths = [
   // Add more video paths as needed
 ];
 
+// Simple video preloader component
 export default function VideoPreloader() {
   useEffect(() => {
-    // Function to preload videos
+    // Only run in browser
+    if (typeof window === 'undefined') return;
+
+    // Create a simple preload function
     const preloadVideos = () => {
       videoPaths.forEach((src) => {
-        // Create a video element to preload
-        const video = document.createElement('video');
-        video.preload = 'auto';
-        video.src = src;
-        video.style.display = 'none';
-        
-        // Add to document to start preloading
-        document.body.appendChild(video);
-        
-        // Clean up after preloading
-        video.onloadeddata = () => {
-          document.body.removeChild(video);
-        };
-        
-        // Also preload using link preload
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'video';
-        link.href = src;
-        document.head.appendChild(link);
+        try {
+          // Preload using link preload (most efficient)
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'video';
+          link.href = src;
+          document.head.appendChild(link);
+          
+          // Fallback: Create a hidden video element
+          const video = document.createElement('video');
+          video.preload = 'auto';
+          video.src = src;
+          video.style.display = 'none';
+          document.body.appendChild(video);
+          
+          // Clean up after a delay
+          setTimeout(() => {
+            try {
+              if (document.head.contains(link)) {
+                document.head.removeChild(link);
+              }
+              if (document.body.contains(video)) {
+                document.body.removeChild(video);
+              }
+            } catch (e) {
+              // Ignore cleanup errors
+            }
+          }, 10000); // Clean up after 10 seconds
+          
+        } catch (error) {
+          console.error('Error preloading video:', src, error);
+        }
       });
     };
 
-    // Only run in browser
-    if (typeof window !== 'undefined') {
-      // Start preloading when the page is idle
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(preloadVideos, { timeout: 2000 });
-      } else {
-        // Fallback for browsers that don't support requestIdleCallback
-        setTimeout(preloadVideos, 2000);
-      }
+    // Use requestIdleCallback if available, otherwise use setTimeout
+    if ('requestIdleCallback' in window) {
+      const id = (window as any).requestIdleCallback(
+        preloadVideos,
+        { timeout: 2000 }
+      );
+      
+      return () => {
+        if ('cancelIdleCallback' in window) {
+          (window as any).cancelIdleCallback(id);
+        }
+      };
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      const timer = setTimeout(preloadVideos, 2000);
+      return () => clearTimeout(timer);
     }
-
-    return () => {
-      // Cleanup if needed
-    };
   }, []);
 
   return null; // This component doesn't render anything
