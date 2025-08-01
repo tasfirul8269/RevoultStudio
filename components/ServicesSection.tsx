@@ -73,7 +73,7 @@ const ServicesSection = () => {
       path: "/services/graphics-design"
     },
     {
-      icon: <Star className="w-8 h-8 transform rotate-12 -rotate-y-12" aria-hidden="true" aria-label="3D Animation Icon" />,
+      icon: <Star className="w-8 h-8" aria-hidden="true" aria-label="3D Animation Icon" />,
       title: "3D Animation",
       description: "Bring your ideas to life with our cutting-edge 3D animation services, from product visualizations to immersive brand experiences.",
       features: ["3D Product Visualization", "Character Animation", "Architectural Walkthroughs", "Motion Graphics"],
