@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Video, Image, Box } from 'lucide-react';
+import { Video, Image, Box, Star } from 'lucide-react';
 import PlanetAnimation from './PlanetAnimation';
 import ScrollAnimation from './ScrollAnimation';
 import StaggerItem from './StaggerItem';
@@ -73,7 +73,7 @@ const ServicesSection = () => {
       path: "/services/graphics-design"
     },
     {
-      icon: <Box className="w-8 h-8 transform rotate-12 -rotate-y-12" aria-hidden="true" aria-label="3D Animation Icon" />,
+      icon: <Star className="w-8 h-8 transform rotate-12 -rotate-y-12" aria-hidden="true" aria-label="3D Animation Icon" />,
       title: "3D Animation",
       description: "Bring your ideas to life with our cutting-edge 3D animation services, from product visualizations to immersive brand experiences.",
       features: ["3D Product Visualization", "Character Animation", "Architectural Walkthroughs", "Motion Graphics"],
@@ -177,7 +177,7 @@ const ServicesSection = () => {
                   className="block h-full group"
                 >
                   <div className="flex flex-col h-full bg-[#1a1a2e]/50 backdrop-blur-sm rounded-2xl p-8 border border-[#2a2a45] hover:border-[#3a3a5a] transition-all duration-500 hover:shadow-2xl hover:shadow-[#3a3a5a]/20 hover:-translate-y-1 transform transition-transform duration-300">
-                    <div className="text-[#7784e4] mb-6 group-hover:scale-110 transition-all duration-300 group-hover:rotate-6">
+                    <div className="text-[#7784e4] mb-6 ">
                       {service.icon}
                     </div>
                     <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-[#7784e4] transition-colors duration-300">

@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { FiPlus, FiTrash2, FiEdit2, FiUser, FiUserX, FiUserCheck } from 'react-icons/fi';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { fetchWithNoCache } from '@/lib/fetchWithNoCache';
 
 interface User {
   _id: string;
@@ -23,16 +24,23 @@ export default function UsersPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch('/api/admin/list-users');
-        if (res.ok) {
-          const data = await res.json();
-          setUsers(data);
-        } else {
-          throw new Error('Failed to fetch users');
+        console.log('Fetching users from /api/admin/list-users');
+        const res = await fetchWithNoCache('/api/admin/list-users');
+        console.log('Response status:', res.status);
+        
+        if (!res.ok) {
+          const errorData = await res.text();
+          console.error('Error response:', errorData);
+          throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
         }
-      } catch (error) {
+        
+        const data = await res.json();
+        console.log('Users data received:', data);
+        setUsers(data);
+      } catch (error: any) {
         console.error('Error fetching users:', error);
-        toast.error('Failed to load users');
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        toast.error(`Failed to load users: ${errorMessage}`);
       } finally {
         setIsLoading(false);
       }
@@ -54,8 +62,8 @@ export default function UsersPage() {
           onClick: async () => {
             try {
               setIsDeleting(userId);
-              const res = await fetch(`/api/admin/users/${userId}`, {
-                method: 'DELETE',
+              const res = await fetchWithNoCache(`/api/admin/users/${userId}`, {
+                method: 'DELETE'
               });
 
               if (res.ok) {
