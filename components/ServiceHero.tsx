@@ -68,15 +68,28 @@ export default function ServiceHero({
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#0a0613] to-[#0c0c7a]/10 flex items-center">
       {/* Video or image background */}
       {videoSrc ? (
-        <>
+        <div className="absolute inset-0 w-full h-full z-0">
           <video
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full object-cover"
             src={videoSrc}
             autoPlay
             muted
+            loop
             playsInline
+            onError={(e) => {
+              console.error('Error loading video:', videoSrc, e);
+              // Fallback to a background color if video fails to load
+              const videoElement = e.target as HTMLVideoElement;
+              const parent = videoElement.parentElement;
+              if (parent) {
+                parent.style.background = 'linear-gradient(135deg, #0a0613 0%, #0c0c7a 100%)';
+                videoElement.style.display = 'none';
+              }
+            }}
           />
-        </>
+          {/* Fallback background in case video doesn't load */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a0613] to-[#0c0c7a] opacity-30" />
+        </div>
       ) : imgSrc ? (
         <div className="absolute inset-0 w-full h-full z-0">
           <Image
