@@ -10,7 +10,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 interface User {
   _id: string;
   email: string;
-  isAdmin: boolean;
   createdAt: string;
 }
 
@@ -118,9 +117,7 @@ export default function UsersPage() {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
                   Email
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
-                  Status
-                </th>
+
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-[#b8c5ff] uppercase tracking-wider">
                   Actions
                 </th>
@@ -152,11 +149,7 @@ export default function UsersPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isAdmin ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                        {user.isAdmin ? 'Admin' : 'User'}
-                      </span>
-                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
                         <button

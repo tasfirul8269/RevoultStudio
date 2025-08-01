@@ -9,7 +9,14 @@ declare module 'next-auth' {
     user: {
       id: string;
       email: string;
+      isAdmin: boolean;
     } & DefaultSession['user'];
+  }
+
+  interface User {
+    id: string;
+    email: string;
+    isAdmin: boolean;
   }
 }
 
@@ -47,6 +54,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user._id.toString(),
           email: user.email,
+          isAdmin: user.isAdmin || false,
         };
       },
     }),
@@ -56,6 +64,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.isAdmin = user.isAdmin || false;
       }
       return token;
     },
@@ -63,7 +72,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
-        // Add the JWT token to the session
+        session.user.isAdmin = token.isAdmin as boolean;
         (session as any).token = token;
       }
       return session;

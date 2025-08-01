@@ -8,7 +8,7 @@ import { FiArrowLeft, FiSave, FiLock } from 'react-icons/fi';
 export default function EditUserPage() {
   const router = useRouter();
   const params = useParams();
-  const userId = Array.isArray(params?.id) ? params.id[0] : params?.id;
+  const userId = params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : '';
   
   const [formData, setFormData] = useState({
     email: '',
@@ -20,7 +20,10 @@ export default function EditUserPage() {
   // Fetch user data
   useEffect(() => {
     const fetchUser = async () => {
-      if (!userId) return;
+      if (!userId) {
+        setIsLoading(false);
+        return;
+      }
       
       try {
         const res = await fetch(`/api/admin/users/${userId}`);
