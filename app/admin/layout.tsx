@@ -4,7 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { FiHome, FiSettings, FiUsers, FiFileText, FiLogOut, FiMenu, FiX, FiChevronDown } from 'react-icons/fi';
+import { FiHome, FiSettings, FiUsers, FiFileText, FiLogOut, FiMenu, FiX, FiChevronDown, FiUser } from 'react-icons/fi';
 import styles from './admin.module.css';
 
 export default function AdminLayout({
@@ -67,7 +67,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0613] to-[#0c0c7a]/10">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0613] to-[#0c0c7a]/10 flex overflow-hidden">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div 
@@ -77,12 +77,13 @@ export default function AdminLayout({
       )}
 
       {/* Sidebar */}
-      <aside 
-        className={`fixed inset-y-0 left-0 w-64 bg-[#0a0613] text-white z-30 transform ${
+      <div 
+        className={`fixed top-0 left-0 bottom-0 w-64 z-30 transform ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 transition-transform duration-300 ease-in-out`}
+        } lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col`}
+        style={{ height: '100vh' }}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex-1 flex flex-col bg-[#0a0613] text-white overflow-y-auto">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-[#1a1a2e]">
             <Link href="/admin" className="text-2xl font-bold gradient-text">
@@ -97,88 +98,77 @@ export default function AdminLayout({
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navItems.map((item) => (
               <Link
-                key={item.name}
+                key={item.href}
                 href={item.href}
                 className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
                   pathname === item.href
                     ? 'bg-[#1a1a2e] text-white'
-                    : 'text-[#b8c5ff] hover:bg-[#1a1a2e] hover:text-white'
+                    : 'text-gray-300 hover:bg-[#1a1a2e]'
                 }`}
               >
-                <span className="mr-3">{item.icon}</span>
-                <span className="font-medium">{item.name}</span>
+                {item.icon}
+                <span className="ml-3">{item.name}</span>
               </Link>
             ))}
           </nav>
 
-          {/* User profile */}
-          <div className="p-4 border-t border-[#1a1a2e]">
-            <div className="relative">
-              <button
-                className="flex items-center w-full p-2 rounded-lg hover:bg-[#1a1a2e] transition-colors"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                <div className="w-8 h-8 rounded-full bg-[#1a1a2e] flex items-center justify-center text-sm font-medium">
-                  {session.user?.name?.[0] || 'A'}
-                </div>
-                <div className="ml-3 text-left">
-                  <p className="text-sm font-medium text-white">{session.user?.name || 'Admin'}</p>
-                  <p className="text-xs text-[#b8c5ff]">Administrator</p>
-                </div>
-                <FiChevronDown className={`ml-auto transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {dropdownOpen && (
-                <div className="absolute bottom-full left-0 right-0 mb-2 bg-[#0a0613] rounded-lg shadow-lg border border-[#1a1a2e] overflow-hidden">
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center w-full px-4 py-3 text-sm text-left text-[#b8c5ff] hover:bg-[#1a1a2e] hover:text-white"
-                  >
-                    <FiLogOut className="w-4 h-4 mr-2" />
-                    Sign out
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main content */}
-      <div className="lg:pl-64">
-        {/* Top navigation */}
-        <header className="bg-[#0a0613] border-b border-[#1a1a2e] sticky top-0 z-10">
-          <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+          {/* User dropdown */}
+          <div className="p-4 border-t border-[#1a1a2e] relative">
             <button
-              className="lg:hidden text-white p-2 rounded-md hover:bg-[#1a1a2e]"
-              onClick={() => setSidebarOpen(true)}
+              className="flex items-center w-full p-2 rounded-lg hover:bg-[#1a1a2e] transition-colors"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              <FiMenu className="w-6 h-6" />
+              <div className="w-8 h-8 rounded-full bg-[#1a1a2e] flex items-center justify-center">
+                <FiUser className="w-4 h-4" />
+              </div>
+              <div className="ml-3 text-left">
+                <p className="text-sm font-medium text-white">
+                  {session?.user?.name || 'Administrator'}
+                </p>
+              </div>
+              <FiChevronDown 
+                className={`ml-auto w-5 h-5 text-gray-400 transition-transform ${
+                  dropdownOpen ? 'transform rotate-180' : ''
+                }`} 
+              />
             </button>
-            
-            <div className="flex-1 flex justify-between items-center">
-              <h1 className="text-xl font-bold text-white ml-4 lg:ml-0">
-                {navItems.find(item => item.href === pathname)?.name || 'Dashboard'}
-              </h1>
-              
-              <div className="flex items-center space-x-4">
+
+            {dropdownOpen && (
+              <div className="absolute bottom-full left-4 right-4 mb-2 bg-[#0a0613] rounded-lg shadow-lg border border-[#1a1a2e] overflow-hidden">
                 <button
                   onClick={handleLogout}
-                  className="hidden lg:flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-[#7784e4] hover:bg-[#5f6bc9] transition-colors"
+                  className="flex items-center w-full px-4 py-3 text-left text-red-400 hover:bg-[#1a1a2e] transition-colors"
                 >
-                  <FiLogOut className="w-4 h-4 mr-2" />
-                  Sign out
+                  <FiLogOut className="w-5 h-5 mr-3" />
+                  Logout
                 </button>
               </div>
-            </div>
+            )}
           </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col lg:ml-64 overflow-y-auto h-screen">
+        {/* Mobile header */}
+        <header className="sticky top-0 z-10 flex items-center justify-between h-16 px-4 bg-[#0a0613] border-b border-[#1a1a2e] lg:hidden">
+          <button
+            className="p-2 text-gray-400 rounded-md hover:bg-[#1a1a2e] hover:text-white"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <FiMenu className="w-6 h-6" />
+          </button>
+          <h1 className="text-lg font-medium text-white">
+            {navItems.find((item) => item.href === pathname)?.name || 'Dashboard'}
+          </h1>
+          <div className="w-6"></div> {/* For alignment */}
         </header>
 
         {/* Page content */}
-        <main className="min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 p-4 lg:p-6 overflow-auto">
           <div className="bg-[#0a0613] bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-[#1a1a2e] shadow-lg">
             {children}
           </div>
