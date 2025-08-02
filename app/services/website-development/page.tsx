@@ -86,7 +86,7 @@ export default async function WebsiteDevelopmentPage() {
       <ServiceHero 
         title="Professional Website Development"
         description="From responsive business websites to complex web applications, we create custom solutions that drive results and help your business thrive in the digital world."
-        videoSrc="/ServiceHero.mp4"
+        videoSrc="/servicehero.mp4"
       />
       
       <ServiceDescription
