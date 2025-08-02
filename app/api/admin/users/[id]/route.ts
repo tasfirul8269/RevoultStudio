@@ -152,15 +152,32 @@ export async function DELETE(
 
     await dbConnect();
     
-    // Implementation for deleting user would go here
+    // Find and delete the user
+    const deletedUser = await User.findByIdAndDelete(params.id);
+    
+    if (!deletedUser) {
+      return NextResponse.json(
+        { success: false, message: 'User not found' },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, message: 'User deleted successfully' },
+      { 
+        success: true, 
+        message: 'User deleted successfully',
+        data: { userId: deletedUser._id }
+      },
       { status: 200 }
     );
   } catch (error) {
     console.error('Error deleting user:', error);
     return NextResponse.json(
-      { success: false, message: 'Internal server error' },
+      { 
+        success: false, 
+        message: 'Failed to delete user',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
