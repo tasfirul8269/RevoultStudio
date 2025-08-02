@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
+import { createApiResponse, createApiError } from '@/lib/apiUtils';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
   try {
@@ -18,15 +22,13 @@ export async function GET() {
       createdAt: user.createdAt ? new Date(user.createdAt).toISOString() : null
     }));
     
-    return NextResponse.json(response);
+    return createApiResponse(response);
   } catch (error) {
     console.error('Error in GET /api/admin/list-users:', error);
-    return NextResponse.json(
-      { 
-        error: 'Failed to fetch users',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
+    return createApiError(
+      'Failed to fetch users',
+      500,
+      error instanceof Error ? error.message : 'Unknown error'
     );
   }
 }

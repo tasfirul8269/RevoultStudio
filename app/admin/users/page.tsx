@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { fetchJsonWithNoCache } from '@/lib/fetchUtils';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { FiPlus, FiTrash2, FiEdit2, FiUser, FiUserX, FiUserCheck } from 'react-icons/fi';
@@ -19,33 +20,34 @@ export default function UsersPage() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const router = useRouter();
 
-  // Fetch users
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        console.log('Fetching users from /api/admin/list-users');
-        const res = await fetch('/api/admin/list-users');
-        console.log('Response status:', res.status);
-        
-        if (!res.ok) {
-          const errorData = await res.text();
-          console.error('Error response:', errorData);
-          throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
-        }
-        
-        const data = await res.json();
-        console.log('Users data received:', data);
-        setUsers(data);
-      } catch (error: any) {
-        console.error('Error fetching users:', error);
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        toast.error(`Failed to load users: ${errorMessage}`);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // Fetch users with our cache-busting utility
+  const fetchUsers = async () => {
+    try {
+      console.log('Fetching users from /api/admin/list-users');
+      const data = await fetchJsonWithNoCache<User[]>('/api/admin/list-users');
+      console.log('Users data received:', data);
+      setUsers(data);
+    } catch (error: any) {
+      console.error('Error fetching users:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast.error(`Failed to load users: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  // Initial fetch
+  useEffect(() => {
     fetchUsers();
+  }, []);
+
+  // Set up polling to refresh data every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchUsers();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleDeleteUser = async (userId: string) => {
