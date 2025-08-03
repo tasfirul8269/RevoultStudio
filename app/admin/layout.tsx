@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { FiHome, FiSettings, FiUsers, FiFileText, FiLogOut, FiMenu, FiX, FiChevronDown, FiUser } from 'react-icons/fi';
+import Image from 'next/image';
 import styles from './admin.module.css';
 
 export default function AdminLayout({
@@ -85,9 +86,16 @@ export default function AdminLayout({
       >
         <div className="flex-1 flex flex-col bg-[#0a0613] text-white overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-[#1a1a2e]">
-            <Link href="/admin" className="text-2xl font-bold gradient-text">
-              Revoult Studio
+          <div className="flex items-center justify-between h-20 px-6 border-b border-[#1a1a2e]">
+            <Link href="/admin" className="flex items-center h-full">
+              <Image 
+                src="/HorizontalLogo.png" 
+                alt="Revoult Studio" 
+                width={150}
+                height={40}
+                className="object-contain h-full w-auto py-2"
+                priority
+              />
             </Link>
             <button 
               className="lg:hidden text-white"
@@ -147,6 +155,20 @@ export default function AdminLayout({
                 </button>
               </div>
             )}
+          </div>
+          
+          {/* Footer with Logo */}
+          <div className="p-4 border-t border-[#1a1a2e] text-center">
+            <div className="flex justify-center">
+              <Image 
+                src="/HorizontalLogo.png" 
+                alt="Revoult Studio" 
+                width={120}
+                height={32}
+                className="opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
+            <p className="text-xs text-gray-400 mt-2">© {new Date().getFullYear()} Revoult Studio</p>
           </div>
         </div>
       </div>

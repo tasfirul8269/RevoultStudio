@@ -134,6 +134,7 @@ export default async function GraphicsDesignPage() {
         title="Our Graphics Design Work"
         description="Explore our portfolio of stunning graphics design projects"
         portfolioItems={portfolioData}
+        showViewMore={true}
       />
     </>
   );

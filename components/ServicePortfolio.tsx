@@ -20,6 +20,8 @@ interface ServicePortfolioProps {
   title: string;
   description: string;
   portfolioItems: PortfolioItem[];
+  showViewMore?: boolean;
+  showTitle?: boolean;
 }
 
 // Video Popup Component
@@ -50,7 +52,13 @@ const VideoPopup = ({ videoUrl, isOpen, onClose }: { videoUrl: string; isOpen: b
   );
 };
 
-const ServicePortfolio = ({ title, description, portfolioItems }: ServicePortfolioProps) => {
+const ServicePortfolio = ({ 
+  title, 
+  description, 
+  portfolioItems, 
+  showViewMore = true,
+  showTitle = true 
+}: ServicePortfolioProps) => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
@@ -83,23 +91,18 @@ const ServicePortfolio = ({ title, description, portfolioItems }: ServicePortfol
         isOpen={!!selectedVideo}
         onClose={() => setSelectedVideo(null)}
       />
-      
-      <section className="py-20 overflow-hidden bg-gradient-to-b from-[#0a0613] to-[#0c0c7a]/10">
-      {/* Static background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0c0c7a]/5 to-transparent"></div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <ScrollAnimation duration={0.7} delay={0.1} direction="up" once={false}>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              {title} <span className="gradient-text">Portfolio</span>
+      <section className="min-h-[calc(100vh-80px)] bg-[#0a0613] w-full">
+      <div className="container mx-auto px-4 py-12 w-full">
+        {showTitle && (
+          <div className="text-center mb-12 pt-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {title} <span className="gradient-text">Work</span>
             </h2>
-            <p className="text-xl text-[#b8c5ff] max-w-3xl mx-auto opacity-90">
+            <p className="text-xl text-[#b8c5ff]/80 max-w-3xl mx-auto">
               {description}
             </p>
           </div>
-        </ScrollAnimation>
-
+        )}
         <ScrollAnimation duration={0.7} delay={0.2} once={false} staggerChildren={0.1}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolioItems.map((project, index) => (
@@ -218,6 +221,31 @@ const ServicePortfolio = ({ title, description, portfolioItems }: ServicePortfol
             ))}
           </div>
         </ScrollAnimation>
+
+        {showViewMore && (
+          <div className="mt-12 text-center">
+            <a
+              href="/portfolio"
+              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-[#3a3a5a] border border-transparent rounded-md hover:bg-[#4a4a7a] transition-colors duration-200"
+            >
+              View All Projects
+              <svg
+                className="w-5 h-5 ml-2 -mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        )}
       </div>
     </section>
     </>

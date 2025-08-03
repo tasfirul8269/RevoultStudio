@@ -123,6 +123,7 @@ export default async function ThreeDAnimationPage() {
         title="Our 3D Animation Work"
         description="Explore our portfolio of stunning 3D animation projects"
         portfolioItems={portfolioData}
+        showViewMore={true}
       />
     </>
   );

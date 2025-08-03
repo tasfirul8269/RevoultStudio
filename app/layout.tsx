@@ -1,5 +1,4 @@
 import './globals.css';
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
@@ -8,6 +7,7 @@ import { Providers } from '@/app/providers';
 import ScrollProgress from '../components/ScrollProgress';
 import Footer from '../components/Footer';
 import dynamic from 'next/dynamic';
+import Head from './head';
 
 // Dynamically import VideoPreloader with no SSR
 const VideoPreloader = dynamic(() => import('../components/VideoPreloader'), {
@@ -16,28 +16,7 @@ const VideoPreloader = dynamic(() => import('../components/VideoPreloader'), {
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Revoult Studio - Digital Innovation & Design',
-  description: 'Crafting exceptional digital experiences with innovative solutions and cutting-edge technology for your business.',
-  // Add preconnect links for video sources in metadata
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Revoult Studio - Digital Innovation & Design',
-    description: 'Crafting exceptional digital experiences with innovative solutions and cutting-edge technology for your business.',
-    url: '/',
-    siteName: 'Revoult Studio',
-    locale: 'en_US',
-    type: 'website',
-  },
-  // Add cache control headers
-  other: {
-    'http-equiv': 'Cache-Control',
-    content: 'public, max-age=31536000, immutable',
-  },
-};
+// Metadata is now handled in head.tsx
 
 export default async function RootLayout({
   children,
@@ -55,6 +34,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <Head />
+      </head>
       <body className={inter.className}>
         <Providers session={session}>
           <VideoPreloader />

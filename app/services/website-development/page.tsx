@@ -151,6 +151,7 @@ export default async function WebsiteDevelopmentPage() {
         title="Our Web Development Work"
         description="Explore our portfolio of web development projects"
         portfolioItems={portfolioData}
+        showViewMore={true}
       />
     </main>
   );

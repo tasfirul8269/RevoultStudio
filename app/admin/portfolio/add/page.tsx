@@ -372,9 +372,9 @@ export default function AddPortfolioItem() {
 
                   <div>
                     <label htmlFor="technologies" className="block text-sm font-medium text-white mb-1">
-                      Technologies <span className="text-red-500">*</span>
+                      Technologies
                       <span className="text-xs text-[#b8c5ff]/70 ml-2">
-                        Comma separated (e.g., React, Node.js, Photoshop)
+                        Comma separated (e.g., React, Node.js, Photoshop) - Optional
                       </span>
                     </label>
                     <input

@@ -141,6 +141,7 @@ export default async function VideoEditingPage() {
         title="Our Video Editing Work"
         description="Explore our portfolio of stunning video editing projects"
         portfolioItems={portfolioData}
+        showViewMore={true}
       />
     </>
   );

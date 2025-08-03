@@ -25,16 +25,20 @@ type PortfolioItem = {
 };
 
 // Function to fetch portfolio items from the API
-export async function getPortfolioItems(service: string): Promise<PortfolioItem[]> {
+export async function getPortfolioItems(service?: string): Promise<PortfolioItem[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:4000';
-    const apiUrl = `${baseUrl}/api/portfolio/items?service=${encodeURIComponent(service)}`;
+    const url = new URL(`${baseUrl}/api/portfolio/items`);
+    
+    if (service && service.trim() !== '') {
+      url.searchParams.append('service', service);
+    }
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
     
     try {
-      const res = await fetch(apiUrl, {
+      const res = await fetch(url.toString(), {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
         headers: {
           'Content-Type': 'application/json',

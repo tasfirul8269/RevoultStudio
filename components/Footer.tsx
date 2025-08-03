@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
@@ -12,8 +13,16 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {/* Company Info */}
           <div className="space-y-6 md:col-span-1">
-            <div>
-              <h3 className="text-2xl font-bold gradient-text mb-4">Revoult Studio</h3>
+            <div className="space-y-4">
+              <div className="relative w-56 h-16">
+                <Image 
+                  src="/HorizontalLogo.png" 
+                  alt="Revoult Studio" 
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <p className="text-[#b8c5ff] leading-relaxed">
                 Transforming your ideas into visually stunning realities with our creative expertise in video, design, and digital solutions.
               </p>
