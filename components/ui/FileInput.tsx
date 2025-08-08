@@ -1,6 +1,7 @@
-import { useState, useRef, ChangeEvent, useEffect } from 'react';
+import { useState, useRef, ChangeEvent, useEffect, useCallback } from 'react';
 import { X, Upload } from 'lucide-react';
 import Image from 'next/image';
+import { UploadProgress } from './LiquidProgress';
 
 type FileType = 'image' | 'video';
 
@@ -31,6 +32,9 @@ export default function FileInput({
 }: FileInputProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Set initial preview if value is a URL
@@ -41,6 +45,42 @@ export default function FileInput({
       setPreviewUrl(null);
     }
   }, [value]);
+
+  const uploadFile = useCallback(async (file: File) => {
+    setIsUploading(true);
+    setUploadProgress(0);
+    setUploadedFile(file);
+
+    // Create preview URL
+    const preview = URL.createObjectURL(file);
+    setPreviewUrl(preview);
+
+    // Simulate upload progress (replace with actual upload logic)
+    const totalSize = file.size;
+    let uploaded = 0;
+    const chunkSize = 1024 * 1024; // 1MB chunks
+    
+    try {
+      // This is a simulation - replace with your actual file upload logic
+      while (uploaded < totalSize) {
+        uploaded = Math.min(uploaded + chunkSize, totalSize);
+        const progress = Math.round((uploaded / totalSize) * 100);
+        setUploadProgress(progress);
+        
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      
+      // Upload complete
+      onChange(file, preview);
+    } catch (err) {
+      setError('Upload failed. Please try again.');
+      console.error('Upload error:', err);
+    } finally {
+      setIsUploading(false);
+      setUploadProgress(0);
+    }
+  }, [onChange]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,12 +100,8 @@ export default function FileInput({
 
     setError(null);
     
-    // Create preview URL
-    const preview = URL.createObjectURL(file);
-    setPreviewUrl(preview);
-    
-    // Pass file and preview URL to parent
-    onChange(file, preview);
+    // Start the upload process
+    uploadFile(file);
   };
 
   const handleRemove = () => {
@@ -82,6 +118,15 @@ export default function FileInput({
     }
   };
 
+  // Format file size
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   return (
     <div className={`space-y-2 ${className}`}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -89,7 +134,16 @@ export default function FileInput({
       </label>
       
       <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md">
-        {!previewUrl ? (
+        {isUploading ? (
+          <div className="w-full">
+            <UploadProgress 
+              progress={uploadProgress}
+              fileName={uploadedFile?.name}
+              fileSize={uploadedFile ? formatFileSize(uploadedFile.size) : ''}
+              className="w-full"
+            />
+          </div>
+        ) : !previewUrl ? (
           <div className="space-y-1 text-center">
             <div className="flex justify-center">
               <Upload className="h-12 w-12 text-gray-400" />

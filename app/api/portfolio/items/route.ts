@@ -3,35 +3,96 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Portfolio from '@/models/Portfolio';
-import { uploadFile } from '@/lib/fileUpload';
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable, Transform } from 'stream';
+
+// Type for file upload progress event
+type UploadProgressEvent = {
+  type: 'progress';
+  progress: number;
+  file: 'main' | 'thumbnail';
+} | {
+  type: 'complete';
+  fileUrl: string;
+  thumbnailUrl: string;
+} | {
+  type: 'error';
+  message: string;
+};
+
+// Helper function to handle file upload with progress
+const uploadToCloudinary = async (file: File, onProgress?: (progress: number) => void): Promise<string> => {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { 
+        resource_type: file.type.startsWith('video/') ? 'video' : 'image',
+        folder: 'portfolio',
+        chunk_size: 6 * 1024 * 1024, // 6MB chunks for better progress tracking
+      },
+      (error, result) => {
+        if (error) {
+          console.error('Cloudinary upload error:', error);
+          return reject(error);
+        }
+        if (!result?.secure_url) {
+          return reject(new Error('Failed to upload file'));
+        }
+        resolve(result.secure_url);
+      }
+    );
+    
+    // Create a readable stream from buffer
+    const readable = new Readable();
+    readable._read = () => {}; // _read is required but you can noop it
+    readable.push(buffer);
+    readable.push(null);
+    
+    // Track upload progress
+    let uploadedBytes = 0;
+    const totalBytes = buffer.length;
+    
+    const progressStream = new Transform({
+      transform(chunk: Buffer, encoding: string, callback: () => void) {
+        uploadedBytes += chunk.length;
+        if (onProgress) {
+          const progress = Math.round((uploadedBytes / totalBytes) * 100);
+          onProgress(progress);
+        }
+        this.push(chunk);
+        callback();
+      }
+    });
+    
+    // Pipe the file through progress tracking to Cloudinary
+    readable.pipe(progressStream).pipe(uploadStream);
+  });
+};
 
 export async function POST(request: Request) {
   // Check Cloudinary configuration
-  const missingCloudinaryVars = [
-    !process.env.CLOUDINARY_CLOUD_NAME && 'CLOUDINARY_CLOUD_NAME',
-    !process.env.CLOUDINARY_API_KEY && 'CLOUDINARY_API_KEY',
-    !process.env.CLOUDINARY_API_SECRET && 'CLOUDINARY_API_SECRET'
-  ].filter(Boolean);
-
-  if (missingCloudinaryVars.length > 0) {
-    const errorMessage = `Missing required Cloudinary environment variables: ${missingCloudinaryVars.join(', ')}`;
-    console.error(errorMessage);
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
     return NextResponse.json(
-      { 
-        success: false, 
-        message: 'Server configuration error',
-        details: errorMessage,
-        missingVariables: missingCloudinaryVars
-      },
+      { error: 'Cloudinary configuration is missing' },
       { status: 500 }
     );
   }
+
+  // Configure Cloudinary
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
   try {
-    // Check authentication
+    // Check if user is authenticated
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
-        { success: false, message: 'Not authenticated' },
+        { error: 'Unauthorized' },
         { status: 401 }
       );
     }
@@ -46,16 +107,11 @@ export async function POST(request: Request) {
     const technologiesRaw = formData.get('technologies') as string | null;
     const file = formData.get('file') as File | null;
     const thumbnail = formData.get('thumbnail') as File | null;
-    
-    // Parse technologies from comma-separated string to array
-    // If technologiesRaw is null or empty string, default to an empty array
-    const technologies = technologiesRaw && technologiesRaw.trim() !== ''
-      ? technologiesRaw.split(',').map(t => t.trim()).filter(Boolean)
-      : [];
 
     // Validate required fields
     if (!title || !description || !service || !file) {
       return NextResponse.json(
+        { error: 'Missing required fields' },
         { success: false, message: 'Missing required fields' },
         { status: 400 }
       );

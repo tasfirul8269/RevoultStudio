@@ -16,11 +16,17 @@ const nextConfig = {
       },
     ],
   },
-  // Disable all caching of Server Components
+  // Configure for very large file uploads
   experimental: {
     serverActions: {
-      bodySizeLimit: '2mb', // or whatever size you need
+      bodySizeLimit: '100mb', // Set to a very high value (maximum allowed by Next.js)
     },
+    // Disable body parsing for API routes that handle file uploads
+    api: {
+      bodyParser: {
+        sizeLimit: '100mb'
+      }
+    }
   },
   // Disable static page generation caching
   generateEtags: false,
