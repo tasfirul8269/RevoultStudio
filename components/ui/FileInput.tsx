@@ -52,13 +52,7 @@ export default function FileInput({
       return;
     }
 
-    // Validate file size
-    if (file.size > maxSizeMB * 1024 * 1024) {
-      setError(`File size must be less than ${maxSizeMB}MB`);
-      return;
-    }
-
-    // Validate file type
+    // Validate file type only
     if (!accept.split(',').some((type) => file.type.match(type.replace('*', '.*')))) {
       setError(`Invalid file type. Please upload a ${fileType} file.`);
       return;

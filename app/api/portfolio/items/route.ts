@@ -76,11 +76,6 @@ export async function POST(request: Request) {
     // Upload files to Cloudinary
     let fileUploadResult = null;
     try {
-      // Verify file size (max 50MB)
-      const maxSize = 50 * 1024 * 1024; // 50MB
-      if (file.size > maxSize) {
-        throw new Error(`File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size (50MB)`);
-      }
       // Read file buffer
       const fileBuffer = await file.arrayBuffer().then(buf => Buffer.from(buf));
       // Upload to Cloudinary

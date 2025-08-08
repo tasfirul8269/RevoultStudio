@@ -57,14 +57,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
     const { name, files } = e.target;
     if (files && files[0]) {
       const file = files[0];
-      const maxSizeMB = 10; // 10MB max file size
-      const maxSizeBytes = maxSizeMB * 1024 * 1024; // Convert MB to bytes
-      
-      if (file.size > maxSizeBytes) {
-        setError(`File size too large. Maximum allowed size is ${maxSizeMB}MB.`);
-        e.target.value = ''; // Clear the file input
-        return;
-      }
       
       setFormData(prev => ({
         ...prev,
