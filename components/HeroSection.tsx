@@ -99,14 +99,17 @@ const HeroSection = () => {
         {/* Content */}
         <div className="space-y-8 w-full max-w-4xl">
           <div className="mx-auto">
-            <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
-              <ScrollAnimation duration={0.5} delay={0.1} direction="up" once={false}>
-                <div className="inline-flex items-center space-x-2">
-                  <span className="gradient-from-[#c5c5ff] gradient-to-[#9c5fff] gradient-text ">Revoult</span>
-                  <span className="text-[#e5dbff]">Studio</span>
-                </div>
-              </ScrollAnimation>
-            </h1>
+              <div ref={titleRef} className="mb-6">
+                <ScrollAnimation duration={0.5} delay={0.1} direction="up" once={false}>
+                  <div className="flex justify-center">
+                    <img 
+                      src="/HorizontalLogo.png" 
+                      alt="Revoult Studio" 
+                      className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain"
+                    />
+                  </div>
+                </ScrollAnimation>
+              </div>
             
             <ScrollAnimation duration={0.6} delay={0.4} direction="up" once={false}>
               <p ref={subtitleRef} className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto text-center">

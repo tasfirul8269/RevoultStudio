@@ -108,10 +108,7 @@ export default function AddPortfolioItem() {
       return;
     }
     
-    if (!formData.technologies.trim()) {
-      toast.error('Please enter at least one technology');
-      return;
-    }
+    // Technologies are now optional
 
     setIsSubmitting(true);
     
@@ -383,9 +380,8 @@ export default function AddPortfolioItem() {
                       name="technologies"
                       value={formData.technologies}
                       onChange={handleInputChange}
-                      placeholder="React, Node.js, Photoshop"
+                      placeholder="React, Node.js, Photoshop (optional)"
                       className="w-full px-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                      required
                     />
                   </div>
 

@@ -48,7 +48,8 @@ export async function POST(request: Request) {
     const thumbnail = formData.get('thumbnail') as File | null;
     
     // Parse technologies from comma-separated string to array
-    const technologies = technologiesRaw 
+    // If technologiesRaw is null or empty string, default to an empty array
+    const technologies = technologiesRaw && technologiesRaw.trim() !== ''
       ? technologiesRaw.split(',').map(t => t.trim()).filter(Boolean)
       : [];
 
