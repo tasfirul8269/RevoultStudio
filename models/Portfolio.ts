@@ -13,11 +13,6 @@ const PortfolioSchema = new Schema<IPortfolio>(
       trim: true,
       maxlength: [100, 'Title cannot be more than 100 characters'],
     },
-    description: {
-      type: String,
-      required: [true, 'Please provide a description'],
-      maxlength: [500, 'Description cannot be more than 500 characters'],
-    },
     fileUrl: {
       type: String,
       required: [true, 'Please provide a file URL'],
@@ -60,7 +55,6 @@ export interface IPortfolio extends Document {
   service: 'video-editing' | 'graphics-design' | '3d-animation' | 'website-development';
   technologies: string[];
   title: string;
-  description: string;
   fileUrl: string;
   publicId: string;
   thumbnailUrl?: string;

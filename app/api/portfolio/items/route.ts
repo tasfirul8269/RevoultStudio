@@ -21,7 +21,7 @@ type UploadProgressEvent = {
 };
 
 // Helper function to handle file upload with progress
-const uploadToCloudinary = async (file: File, onProgress?: (progress: number) => void): Promise<string> => {
+const uploadToCloudinary = async (file: File, onProgress?: (progress: number) => void): Promise<{url: string, publicId: string}> => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
   
@@ -37,10 +37,10 @@ const uploadToCloudinary = async (file: File, onProgress?: (progress: number) =>
           console.error('Cloudinary upload error:', error);
           return reject(error);
         }
-        if (!result?.secure_url) {
+        if (!result?.secure_url || !result?.public_id) {
           return reject(new Error('Failed to upload file'));
         }
-        resolve(result.secure_url);
+        resolve({ url: result.secure_url, publicId: result.public_id });
       }
     );
     
@@ -101,7 +101,6 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     
     const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
     const service = formData.get('service') as string;
     const projectUrl = formData.get('projectUrl') as string;
     const technologiesRaw = formData.get('technologies') as string | null;
@@ -109,9 +108,8 @@ export async function POST(request: Request) {
     const thumbnail = formData.get('thumbnail') as File | null;
 
     // Validate required fields
-    if (!title || !description || !service || !file) {
+    if (!title || !service || !file) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
         { success: false, message: 'Missing required fields' },
         { status: 400 }
       );
@@ -135,7 +133,7 @@ export async function POST(request: Request) {
       // Read file buffer
       const fileBuffer = await file.arrayBuffer().then(buf => Buffer.from(buf));
       // Upload to Cloudinary
-      fileUploadResult = await uploadFile(fileBuffer, service, fileType);
+      fileUploadResult = await uploadToCloudinary(file as File);
     } catch (uploadError) {
       console.error('=== File upload failed ===');
       console.error('Error details:', {
@@ -161,7 +159,7 @@ export async function POST(request: Request) {
     if (thumbnail) {
       try {
         const thumbnailBuffer = Buffer.from(await thumbnail.arrayBuffer());
-        thumbnailUploadResult = await uploadFile(thumbnailBuffer, `${service}/thumbnails`);
+        thumbnailUploadResult = await uploadToCloudinary(thumbnail as File);
       } catch (uploadError) {
         console.error('Error uploading thumbnail to Cloudinary:', uploadError);
         // Continue without thumbnail if upload fails
@@ -174,13 +172,12 @@ export async function POST(request: Request) {
     // Create portfolio item with the publicId from Cloudinary
     const portfolioItem = new Portfolio({
       title,
-      description,
       service,
       fileUrl: fileUploadResult.url, // Using url from uploadFile result
       publicId: fileUploadResult.publicId, // Using publicId from uploadFile result
       fileType,
       projectUrl: projectUrl || undefined,
-      technologies, // Add technologies array
+      technologies: technologiesRaw ? technologiesRaw.split(',').map(t => t.trim()).filter(Boolean) : [], // Add technologies array
       ...(thumbnailUploadResult && {
         thumbnailUrl: thumbnailUploadResult.url, // Using url for thumbnail
         thumbnailPublicId: thumbnailUploadResult.publicId // Using publicId for thumbnail

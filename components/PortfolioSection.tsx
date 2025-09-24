@@ -163,9 +163,6 @@ const PortfolioSection = () => {
                     <h3 className="text-2xl font-bold mb-2 text-white text-center">
                       {project.title}
                     </h3>
-                    <p className="text-[#b8c5ff] mb-6 leading-relaxed text-center transform transition-all duration-500 group-hover:translate-y-0 translate-y-4">
-                      {project.description}
-                    </p>
                     <div className="flex flex-wrap gap-2 justify-center transform transition-all duration-500 group-hover:translate-y-0 translate-y-4">
                       {project.tech.map((tech, techIndex) => {
                         const isHovered = hoveredProject === index;

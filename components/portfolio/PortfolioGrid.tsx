@@ -103,9 +103,6 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">
           {item.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">
-          {item.description}
-        </p>
         
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">

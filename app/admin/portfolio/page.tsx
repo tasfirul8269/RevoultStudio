@@ -531,7 +531,6 @@ export default function PortfolioPage() {
               </div>
               <div className="p-4">
                 <h3 className="text-white font-medium truncate">{item.title}</h3>
-                <p className="text-sm text-[#b8c5ff] mt-1 line-clamp-2">{item.description}</p>
                 <div className="mt-3 flex items-center justify-between">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#1a1a2e] text-[#b8c5ff] capitalize">
                     {item.service.replace('-', ' ')}

@@ -11,7 +11,6 @@ type ServiceType = 'video-editing' | 'graphics-design' | '3d-animation' | 'websi
 type FormData = {
   service: ServiceType;
   title: string;
-  description: string;
   technologies: string;
   thumbnail: File | null;
   video: File | null;
@@ -31,7 +30,6 @@ export default function AddPortfolioItem() {
   const [formData, setFormData] = useState<FormData>({
     service: 'video-editing',
     title: '',
-    description: '',
     technologies: '',
     thumbnail: null,
     video: null,
@@ -46,12 +44,6 @@ export default function AddPortfolioItem() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
-    // Enforce max length for description
-    if (name === 'description' && value.length > 60) {
-      return;
-    }
-    
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -120,7 +112,6 @@ export default function AddPortfolioItem() {
       
       formDataToSend.append('title', formData.title);
       
-      formDataToSend.append('description', formData.description);
       
       formDataToSend.append('technologies', formData.technologies);
       
@@ -348,24 +339,6 @@ export default function AddPortfolioItem() {
                     />
                   </div>
 
-                  <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-white mb-1">
-                      Description <span className="text-red-500">*</span>
-                      <span className="text-xs text-[#b8c5ff]/70 ml-2">
-                        {formData.description.length}/60 characters
-                      </span>
-                    </label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
-                      maxLength={60}
-                      rows={3}
-                      className="w-full px-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-                      required
-                    />
-                  </div>
 
                   <div>
                     <label htmlFor="technologies" className="block text-sm font-medium text-white mb-1">

@@ -63,7 +63,6 @@ export async function PUT(
     const formData = await request.formData();
     
     const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
     const projectUrl = formData.get('projectUrl') as string;
     const technologiesRaw = formData.get('technologies') as string | null;
     const file = formData.get('file') as File | null;
@@ -76,7 +75,7 @@ export async function PUT(
       : [];
 
     // Validate required fields
-    if (!title || !description) {
+    if (!title) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
         { status: 400 }
@@ -134,7 +133,6 @@ export async function PUT(
       id,
       {
         title,
-        description,
         fileUrl,
         thumbnailUrl,
         projectUrl: projectUrl || null,

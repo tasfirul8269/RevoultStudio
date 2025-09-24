@@ -96,7 +96,7 @@ const ServicePortfolio = ({
         {showTitle && (
           <div className="text-center mb-12 pt-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {title} <span className="gradient-text">Work</span>
+              {title}
             </h2>
             <p className="text-xl text-[#b8c5ff]/80 max-w-3xl mx-auto">
               {description}
@@ -183,10 +183,6 @@ const ServicePortfolio = ({
                       {project.title}
                     </h3>
                     
-                    {/* Description */}
-                    <p className="text-[#b8c5ff] text-center text-sm mb-3">
-                      {project.description}
-                    </p>
                     
                     {/* Technologies */}
                     {project.tech && project.tech.length > 0 && (

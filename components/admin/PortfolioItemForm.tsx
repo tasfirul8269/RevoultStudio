@@ -18,7 +18,6 @@ type FileInputValue = File | string | null;
 
 type PortfolioItemFormData = {
   title: string;
-  description: string;
   projectUrl: string;
   file: File | string;
   thumbnail?: File | string | null;
@@ -26,7 +25,6 @@ type PortfolioItemFormData = {
 
 const portfolioItemSchema = z.object({
   title: z.string().min(1, 'Title is required').max(100, 'Title is too long'),
-  description: z.string().min(1, 'Description is required').max(500, 'Description is too long'),
   projectUrl: z.string().url('Please enter a valid URL').or(z.literal('')),
   file: z.union([z.instanceof(File), z.string()]).refine(
     (file) => !!file,
@@ -42,7 +40,6 @@ interface PortfolioItemFormProps {
   initialData?: {
     id?: string;
     title: string;
-    description: string;
     fileUrl: string;
     thumbnailUrl?: string;
     projectUrl?: string;
@@ -72,7 +69,6 @@ export default function PortfolioItemForm({
     resolver: zodResolver(portfolioItemSchema),
     defaultValues: {
       title: initialData?.title || '',
-      description: initialData?.description || '',
       projectUrl: initialData?.projectUrl || '',
       file: initialData?.fileUrl || '',
       thumbnail: initialData?.thumbnailUrl || null,
@@ -112,7 +108,6 @@ export default function PortfolioItemForm({
       
       const formData = new FormData();
       formData.append('title', data.title);
-      formData.append('description', data.description);
       formData.append('service', service);
       
       // If it's an edit, include the ID
@@ -189,21 +184,6 @@ export default function PortfolioItemForm({
           )}
         </div>
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            Description <span className="text-red-500">*</span>
-          </label>
-          <Textarea
-            id="description"
-            className="mt-1 block w-full"
-            rows={4}
-            {...register('description')}
-            disabled={isSubmitting}
-          />
-          {errors.description && (
-            <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
-          )}
-        </div>
 
         <div>
           <label htmlFor="projectUrl" className="block text-sm font-medium text-gray-700">

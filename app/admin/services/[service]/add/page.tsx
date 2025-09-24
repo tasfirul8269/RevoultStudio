@@ -33,7 +33,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
     url: '',
     file: null as File | null,
     thumbnail: null as File | null,
@@ -81,7 +80,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
-      formDataToSend.append('description', formData.description);
       formDataToSend.append('service', serviceSlug);
       formDataToSend.append('projectUrl', formData.url || '');
       
@@ -193,21 +191,6 @@ export default function AddPortfolioItem({ params }: { params: Promise<{ service
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-2">
-                    Description *
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    rows={4}
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                    placeholder="A brief description of the project"
-                    required
-                  />
-                </div>
 
                 <div className="space-y-6">
                   {service.type === 'video' ? (

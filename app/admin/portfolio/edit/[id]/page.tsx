@@ -11,7 +11,6 @@ type ServiceType = 'video-editing' | 'graphics-design' | '3d-animation' | 'websi
 type FormData = {
   service: ServiceType;
   title: string;
-  description: string;
   technologies: string;
   thumbnail: File | null;
   video: File | null;
@@ -27,7 +26,6 @@ export default function EditPortfolioItem() {
   const [formData, setFormData] = useState<FormData>({
     service: 'video-editing',
     title: '',
-    description: '',
     technologies: '',
     thumbnail: null,
     video: null,
@@ -58,7 +56,6 @@ export default function EditPortfolioItem() {
           ...prev,
           service: data.service || 'graphics-design',
           title: data.title || '',
-          description: data.description || '',
           technologies: Array.isArray(data.technologies) 
             ? data.technologies.join(', ') 
             : data.technologies || '',
@@ -83,7 +80,6 @@ export default function EditPortfolioItem() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === 'description' && value.length > 60) return;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -119,7 +115,7 @@ export default function EditPortfolioItem() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description) {
+    if (!formData.title) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -134,7 +130,6 @@ export default function EditPortfolioItem() {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
-      formDataToSend.append('description', formData.description);
       formDataToSend.append('service', formData.service);
       formDataToSend.append('technologies', formData.technologies);
       
@@ -195,23 +190,6 @@ export default function EditPortfolioItem() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-white mb-1">
-              Description <span className="text-red-500">*</span>
-              <span className="text-xs text-[#b8c5ff] ml-2">
-                ({formData.description.length}/60 characters)
-              </span>
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              maxLength={60}
-              className="w-full px-4 py-2 bg-[#0a0613] border border-[#1a1a2e] rounded-lg text-white focus:ring-2 focus:ring-[#7784e4] focus:border-transparent"
-              rows={3}
-              required
-            />
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-white mb-1">
