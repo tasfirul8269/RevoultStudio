@@ -22,6 +22,8 @@ interface ServicePortfolioProps {
   portfolioItems: PortfolioItem[];
   showViewMore?: boolean;
   showTitle?: boolean;
+  serviceSlug?: string;
+  maxItems?: number;
 }
 
 // Video Popup Component
@@ -52,37 +54,41 @@ const VideoPopup = ({ videoUrl, isOpen, onClose }: { videoUrl: string; isOpen: b
   );
 };
 
-const ServicePortfolio = ({ 
-  title, 
-  description, 
-  portfolioItems, 
+const ServicePortfolio = ({
+  title,
+  description,
+  portfolioItems,
   showViewMore = true,
-  showTitle = true 
+  showTitle = true,
+  serviceSlug,
+  maxItems
 }: ServicePortfolioProps) => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
-  
+
+  const displayedItems = maxItems ? portfolioItems.slice(0, maxItems) : portfolioItems;
+
   const handleThumbnailError = (item: any, e: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement>) => {
     const target = e.target as HTMLImageElement | HTMLVideoElement;
     const parent = target.parentElement;
     if (!parent) return;
-    
+
     // Hide the broken image/video
     target.style.display = 'none';
-    
+
     // Create a fallback container
     const fallback = document.createElement('div');
     fallback.className = 'w-full h-full flex items-center justify-center bg-gray-900';
-    
+
     const icon = document.createElement('div');
     icon.className = 'text-4xl text-[#7784e4]';
     icon.textContent = item.fileType === 'video' ? '▶️' : '🖼️';
-    
+
     fallback.appendChild(icon);
     parent.appendChild(fallback);
   };
-  
+
   return (
     <>
       {/* Video Popup */}
@@ -92,158 +98,158 @@ const ServicePortfolio = ({
         onClose={() => setSelectedVideo(null)}
       />
       <section className="min-h-[calc(100vh-80px)] bg-[#0a0613] w-full">
-      <div className="container mx-auto px-4 py-12 w-full">
-        {showTitle && (
-          <div className="text-center mb-12 pt-8">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {title}
-            </h2>
-            <p className="text-xl text-[#b8c5ff]/80 max-w-3xl mx-auto">
-              {description}
-            </p>
-          </div>
-        )}
-        <ScrollAnimation duration={0.7} delay={0.2} once={false} staggerChildren={0.1}>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioItems.map((project, index) => (
-              <StaggerItem key={index} index={index}>
-                <div
-                  className="relative rounded-2xl overflow-hidden group h-80 flex items-end transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#3a3a5a]/30"
-                  onMouseEnter={() => setHoveredProject(index)}
-                  onMouseLeave={() => setHoveredProject(null)}
-                >
-                  {/* Video/Image Container */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    {project.fileType === 'video' ? (
-                      <div className="relative w-full h-full group">
-                        {/* Video Thumbnail - Show poster frame when not hovering */}
-                        <div className="absolute inset-0 w-full h-full group-hover:opacity-0 transition-opacity duration-300">
-                          {project.thumbnailUrl || project.videoUrl ? (
-                            <div className="relative w-full h-full">
-                              <video
-                                ref={el => {
-                                  if (el) {
-                                    videoRefs.current[project.title] = el;
-                                  }
-                                }}
-                                src={project.videoUrl}
-                                className="w-full h-full object-cover"
-                                preload="metadata"
-                                muted
-                                loop
-                                playsInline
-                                onError={(e) => handleThumbnailError(project, e)}
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                                <div className="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
-                                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z" />
-                                  </svg>
+        <div className="container mx-auto px-4 py-12 w-full">
+          {showTitle && (
+            <div className="text-center mb-12 pt-8">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                {title}
+              </h2>
+              <p className="text-xl text-[#b8c5ff]/80 max-w-3xl mx-auto">
+                {description}
+              </p>
+            </div>
+          )}
+          <ScrollAnimation duration={0.7} delay={0.2} once={false} staggerChildren={0.1}>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayedItems.map((project, index) => (
+                <StaggerItem key={index} index={index}>
+                  <div
+                    className="relative rounded-2xl overflow-hidden group h-80 flex items-end transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#3a3a5a]/30"
+                    onMouseEnter={() => setHoveredProject(index)}
+                    onMouseLeave={() => setHoveredProject(null)}
+                  >
+                    {/* Video/Image Container */}
+                    <div className="absolute inset-0 w-full h-full overflow-hidden">
+                      {project.fileType === 'video' ? (
+                        <div className="relative w-full h-full group">
+                          {/* Video Thumbnail - Show poster frame when not hovering */}
+                          <div className="absolute inset-0 w-full h-full group-hover:opacity-0 transition-opacity duration-300">
+                            {project.thumbnailUrl || project.videoUrl ? (
+                              <div className="relative w-full h-full">
+                                <video
+                                  ref={el => {
+                                    if (el) {
+                                      videoRefs.current[project.title] = el;
+                                    }
+                                  }}
+                                  src={project.videoUrl}
+                                  className="w-full h-full object-cover"
+                                  preload="metadata"
+                                  muted
+                                  loop
+                                  playsInline
+                                  onError={(e) => handleThumbnailError(project, e)}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                                  <div className="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gray-900">
-                              <span className="text-4xl">▶️</span>
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* Video - Show on hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-cover"
-                            src={project.videoUrl}
-                            onError={(e) => handleThumbnailError(project, e)}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      /* Image Thumbnail */
-                      <div 
-                        className="w-full h-full bg-cover bg-center"
-                        style={{
-                          backgroundImage: `url(${project.image})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center'
-                        }}
-                        onError={(e) => handleThumbnailError(project, e as any)}
-                      />
-                    )}
-                  </div>
-                  {/* Overlay content with enhanced hover effect */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-b from-[#040422]/80 via-[#0c0c7a]/90 to-[#040422]/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center p-6 transform group-hover:scale-100 scale-90 z-10"
-                  >
-                    <h3 className="text-2xl font-bold mb-2 text-white text-center">
-                      {project.title}
-                    </h3>
-                    
-                    
-                    {/* Technologies */}
-                    {project.tech && project.tech.length > 0 && (
-                      <div className="flex flex-wrap justify-center gap-2 mb-3 max-w-full">
-                        {project.tech.map((tech, i) => (
-                          <span 
-                            key={i}
-                            className="px-2 py-1 text-xs font-medium text-[#b8c5ff] bg-[#0c0c7a]/50 rounded-full whitespace-nowrap"
-                          >
-                            {tech.trim()}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    
-                    {/* Play button for videos */}
-                    {project.fileType === 'video' && project.videoUrl && (
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedVideo(project.videoUrl || null);
-                        }}
-                        className="mt-4 flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
-                        aria-label="Play video"
-                      >
-                        <FiPlay className="w-5 h-5 text-white ml-1" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </div>
-        </ScrollAnimation>
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-gray-900">
+                                <span className="text-4xl">▶️</span>
+                              </div>
+                            )}
+                          </div>
 
-        {showViewMore && (
-          <div className="mt-12 text-center">
-            <a
-              href="/portfolio"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-[#3a3a5a] border border-transparent rounded-md hover:bg-[#4a4a7a] transition-colors duration-200"
-            >
-              View All Projects
-              <svg
-                className="w-5 h-5 ml-2 -mr-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                          {/* Video - Show on hover */}
+                          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <video
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-full object-cover"
+                              src={project.videoUrl}
+                              onError={(e) => handleThumbnailError(project, e)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        /* Image Thumbnail */
+                        <div
+                          className="w-full h-full bg-cover bg-center"
+                          style={{
+                            backgroundImage: `url(${project.image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                          }}
+                          onError={(e) => handleThumbnailError(project, e as any)}
+                        />
+                      )}
+                    </div>
+                    {/* Overlay content with enhanced hover effect */}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-b from-[#040422]/80 via-[#0c0c7a]/90 to-[#040422]/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center p-6 transform group-hover:scale-100 scale-90 z-10"
+                    >
+                      <h3 className="text-2xl font-bold mb-2 text-white text-center">
+                        {project.title}
+                      </h3>
+
+
+                      {/* Technologies */}
+                      {project.tech && project.tech.length > 0 && (
+                        <div className="flex flex-wrap justify-center gap-2 mb-3 max-w-full">
+                          {project.tech.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-1 text-xs font-medium text-[#b8c5ff] bg-[#0c0c7a]/50 rounded-full whitespace-nowrap"
+                            >
+                              {tech.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Play button for videos */}
+                      {project.fileType === 'video' && project.videoUrl && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedVideo(project.videoUrl || null);
+                          }}
+                          className="mt-4 flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                          aria-label="Play video"
+                        >
+                          <FiPlay className="w-5 h-5 text-white ml-1" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </div>
+          </ScrollAnimation>
+
+          {showViewMore && portfolioItems.length > (maxItems || 0) && (
+            <div className="mt-12 text-center">
+              <a
+                href={`/portfolio${serviceSlug ? `?service=${serviceSlug}` : ''}`}
+                className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-[#3a3a5a] border border-transparent rounded-md hover:bg-[#4a4a7a] transition-colors duration-200"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                ></path>
-              </svg>
-            </a>
-          </div>
-        )}
-      </div>
-    </section>
+                View All Projects
+                <svg
+                  className="w-5 h-5 ml-2 -mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
     </>
   );
 };

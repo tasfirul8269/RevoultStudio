@@ -51,19 +51,19 @@ export default async function ThreeDAnimationPage() {
 
   return (
     <>
-      <ServiceHero 
+      <ServiceHero
         title="3D Animation & Design"
         description="Transform your ideas into stunning 3D reality. Our expert team delivers high-quality 3D animations, models, and visualizations for games, films, architecture, and more."
         videoSrc="/ServiceHero.mp4"
       />
-      
+
       <ServiceDescription
         title="Expert 3D Animation Services"
         description="From concept to final render, we bring your vision to life"
         content={
           <div className="space-y-6">
             <p>Our 3D animation studio specializes in creating stunning visual content that captivates and engages audiences. With expertise in the latest 3D technologies and a passion for storytelling, we transform ideas into immersive experiences that leave lasting impressions.</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">3D Animation Services</h3>
@@ -76,7 +76,7 @@ export default async function ThreeDAnimationPage() {
                   <li>Virtual reality experiences</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Our Process</h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-300">
@@ -88,7 +88,7 @@ export default async function ThreeDAnimationPage() {
                   <li>Final delivery in your preferred format</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2 md:col-span-2">
                 <h3 className="text-xl font-semibold text-white">Technologies We Use</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
@@ -111,19 +111,21 @@ export default async function ThreeDAnimationPage() {
                 </div>
               </div>
             </div>
-            
+
             <p className="mt-6">Whether you need a simple 3D model or a complete animated production, our team has the skills and experience to deliver exceptional results. We work closely with clients to understand their vision and bring it to life with creativity and technical excellence.</p>
           </div>
         }
         image="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1478&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         reversed
       />
-      
-      <ServicePortfolio 
+
+      <ServicePortfolio
         title="Our 3D Animation Work"
         description="Explore our portfolio of stunning 3D animation projects"
         portfolioItems={portfolioData}
         showViewMore={true}
+        serviceSlug="3d-animation"
+        maxItems={6}
       />
     </>
   );

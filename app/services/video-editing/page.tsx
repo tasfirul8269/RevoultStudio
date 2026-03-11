@@ -92,19 +92,19 @@ export default async function VideoEditingPage() {
   const portfolioData = await getPortfolioItems('video-editing');
   return (
     <>
-      <ServiceHero 
+      <ServiceHero
         title="Professional Video Editing Services"
         description="Comprehensive video editing solutions for all your needs. From motion graphics and animations to vlog editing and promotional content, we deliver high-quality video production services tailored to your vision."
         videoSrc="/ServiceHero.mp4"
       />
-      
+
       <ServiceDescription
         title="Complete Video Editing Solutions"
         description="Professional editing services for all types of video content"
         content={
           <div className="space-y-6">
             <p>Our expert team delivers professional video editing and motion graphics services tailored to your needs. Whether you&apos;re looking for engaging social media content, professional product promos, or cinematic wedding videos, we bring your vision to life with creativity and technical excellence.</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Video Editing Services</h3>
@@ -117,7 +117,7 @@ export default async function VideoEditingPage() {
                   <li>Social media short-form content (TikTok, Reels, Shorts)</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Motion Graphics & Effects</h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-300">
@@ -130,18 +130,20 @@ export default async function VideoEditingPage() {
                 </ul>
               </div>
             </div>
-            
+
             <p className="mt-6">Using industry-standard software like Adobe After Effects, Premiere Pro, and Cinema 4D, we ensure your content stands out with professional quality and creative flair. Our team works closely with you to understand your vision and deliver results that exceed your expectations.</p>
           </div>
         }
         image="https://images.pexels.com/photos/1038277/pexels-photo-1038277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
-      
-      <ServicePortfolio 
+
+      <ServicePortfolio
         title="Our Video Editing Work"
         description="Explore our portfolio of stunning video editing projects"
         portfolioItems={portfolioData}
         showViewMore={true}
+        serviceSlug="video-editing"
+        maxItems={6}
       />
     </>
   );

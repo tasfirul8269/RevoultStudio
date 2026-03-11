@@ -83,19 +83,19 @@ export default async function WebsiteDevelopmentPage() {
 
   return (
     <main className="min-h-screen">
-      <ServiceHero 
+      <ServiceHero
         title="Professional Website Development"
         description="From responsive business websites to complex web applications, we create custom solutions that drive results and help your business thrive in the digital world."
         videoSrc="/ServiceHero.mp4"
       />
-      
+
       <ServiceDescription
         title="Comprehensive Web Development Solutions"
         description="From concept to deployment, we&apos;ve got you covered"
         content={
           <div className="space-y-6">
             <p>Our expert development team delivers professional web solutions tailored to your needs. Whether you&apos;re looking for a stunning business website, a powerful e-commerce platform, or a custom web application, we combine creativity with technical expertise to bring your vision to life.</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Web Development Services</h3>
@@ -108,7 +108,7 @@ export default async function WebsiteDevelopmentPage() {
                   <li>Website redesign and optimization</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Our Approach</h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-300">
@@ -120,7 +120,7 @@ export default async function WebsiteDevelopmentPage() {
                   <li>Ongoing support and maintenance</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2 md:col-span-2">
                 <h3 className="text-xl font-semibold text-white">Technologies We Use</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
@@ -146,12 +146,14 @@ export default async function WebsiteDevelopmentPage() {
           </div>
         }
       />
-      
-      <ServicePortfolio 
+
+      <ServicePortfolio
         title="Our Web Development Work"
         description="Explore our portfolio of web development projects"
         portfolioItems={portfolioData}
         showViewMore={true}
+        serviceSlug="website-development"
+        maxItems={6}
       />
     </main>
   );

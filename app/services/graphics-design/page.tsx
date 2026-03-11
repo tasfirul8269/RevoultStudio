@@ -76,19 +76,19 @@ export default async function GraphicsDesignPage() {
 
   return (
     <>
-      <ServiceHero 
+      <ServiceHero
         title="Professional Graphics Design"
         description="Comprehensive design solutions for all your branding and marketing needs. From logos and social media graphics to print materials and photo editing, we bring your vision to life with creativity and precision."
         videoSrc="/ServiceHero.mp4"
       />
-      
+
       <ServiceDescription
         title="Comprehensive Design Solutions"
         description="From concept to final design, we&apos;ve got you covered"
         content={
           <div className="space-y-6">
             <p>Our expert design team delivers professional graphics solutions tailored to your needs. Whether you&apos;re looking for a stunning logo, engaging social media content, or professional print materials, we combine creativity with technical expertise to bring your vision to life.</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Print & Digital Design</h3>
@@ -100,7 +100,7 @@ export default async function GraphicsDesignPage() {
                   <li>Clothing and merchandise design</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Digital & Social Media</h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-300">
@@ -111,7 +111,7 @@ export default async function GraphicsDesignPage() {
                   <li>Email marketing graphics</li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-white">Photo Editing Services</h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-300">
@@ -123,18 +123,20 @@ export default async function GraphicsDesignPage() {
                 </ul>
               </div>
             </div>
-            
+
             <p className="mt-6">Using industry-standard tools like Adobe Photoshop, Illustrator, and InDesign, we ensure your designs are professional, on-brand, and effective. Our team works closely with you to understand your goals and deliver designs that exceed your expectations.</p>
           </div>
         }
         image="https://images.pexels.com/photos/3184430/pexels-photo-3184430.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
-      
-      <ServicePortfolio 
+
+      <ServicePortfolio
         title="Our Graphics Design Work"
         description="Explore our portfolio of stunning graphics design projects"
         portfolioItems={portfolioData}
         showViewMore={true}
+        serviceSlug="graphics-design"
+        maxItems={6}
       />
     </>
   );
